@@ -2,17 +2,17 @@ package com.kadet.kadetBroker.entity;
 
 import java.io.Serializable;
 
-public class Customer implements Serializable, Entity<String> {
+public class Customer implements Serializable, Entity {
 	
     private String id;
     private String name;
-    private String addr;
+    private String address;
     
     // Constructors
-    public Customer(String id, String name, String addr){
+    public Customer(String id, String name, String address){
         this.id = id;
         this.name = name;
-        this.addr = addr;
+        this.address = address;
     }
     
     public Customer(String id){
@@ -24,7 +24,7 @@ public class Customer implements Serializable, Entity<String> {
     }
     
     // Accesser methods
-    public String getId(){
+    public String getId (){
         return id;
     }
     
@@ -32,8 +32,8 @@ public class Customer implements Serializable, Entity<String> {
         return name;
     }
     
-    public String getAddr(){
-        return addr;
+    public String getAddress (){
+        return address;
     }
     
     // Mutator methods - note you cannot change the id
@@ -41,12 +41,15 @@ public class Customer implements Serializable, Entity<String> {
         name = newName;
     }
     
-    public void setAddr(String newAddr){
-        addr = newAddr;
+    public void setAddress (String newAddr){
+        address = newAddr;
     }
     
     public String toString() {
-        return "Customer:  " + id + "  " + name + "  " + addr;
+        return "Customer:  " + id + "  " + name + "  " + address;
     }
+
+
+
 }
 

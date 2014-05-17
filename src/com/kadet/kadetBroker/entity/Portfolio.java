@@ -3,24 +3,24 @@ package com.kadet.kadetBroker.entity;
 import java.io.Serializable;
 import java.util.*;
 
-public class Portfolio implements Serializable {
+public class Portfolio implements Serializable, Entity {
 	
-    private Customer cust;
-    private ArrayList<Share> shares;
+    private Customer customer;
+    private List<Share> shares;
     
-    public Portfolio(Customer cust, ArrayList<Share> shares) {
-        this.cust = cust;
+    public Portfolio(Customer customer, List<Share> shares) {
+        this.customer = customer;
         this.shares = shares;
     }
     
-    public Portfolio(Customer cust) {
-        this.cust = cust;
+    public Portfolio(Customer customer) {
+        this.customer = customer;
         this.shares = new ArrayList<Share>(10);
     }
     
     // accessor methods
     public Customer getCustomer(){
-        return cust;
+        return customer;
     }
     
     public List<Share> getShares(){

@@ -9,7 +9,8 @@ package com.kadet.kadetBroker.view;
 public enum ViewType {
 
     ALL_CUSTOMERS_VIEW,
-    PORTFOLIO_VIEW,
-    STOCKS_VIEW
+    CUSTOMER_INFO_VIEW,
+    STOCKS_VIEW,
+    EMPTY_VIEW
 
 }

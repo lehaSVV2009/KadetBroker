@@ -1,5 +1,10 @@
 package com.kadet.kadetBroker.fwk;
 
+import com.kadet.kadetBroker.entity.Customer;
+import com.kadet.kadetBroker.model.DataModel;
+
+import java.util.List;
+
 /**
  * Date: 16.05.14
  * Time: 5:14
@@ -15,5 +20,15 @@ public class Dispatcher {
     }
 
     private Dispatcher() {}
-    
+
+    private DataModel dataModel;
+
+    public void setModel (DataModel dataModel) {
+        this.dataModel = dataModel;
+    }
+
+    public List<Customer> getAllCustomers () {
+        return (List<Customer>)ProxyManager.getInstance().deepClone(dataModel.getAllCustomers());
+    }
+
 }

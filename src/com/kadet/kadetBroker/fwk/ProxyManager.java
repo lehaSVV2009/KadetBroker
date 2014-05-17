@@ -15,5 +15,9 @@ public class ProxyManager {
     }
 
     private ProxyManager() {}
+
+    public Object deepClone (Object clonedObject) {
+        return clonedObject;
+    }
     
 }

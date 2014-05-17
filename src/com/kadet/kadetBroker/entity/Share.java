@@ -2,7 +2,7 @@ package com.kadet.kadetBroker.entity;
 
 import java.io.Serializable;
 
-public class Share implements Serializable {
+public class Share implements Serializable, Entity {
 	
     private Stock stock;
     private int quantity;

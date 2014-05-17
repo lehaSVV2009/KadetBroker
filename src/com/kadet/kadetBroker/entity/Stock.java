@@ -2,7 +2,7 @@ package com.kadet.kadetBroker.entity;
 
 import java.io.Serializable;
 
-public class Stock implements Serializable {
+public class Stock implements Serializable, Entity {
 	
     private String symbol;
     private float price;

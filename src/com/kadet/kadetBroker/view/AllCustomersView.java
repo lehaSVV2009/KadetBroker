@@ -32,12 +32,15 @@ public class AllCustomersView extends AbstractView {
 	private JButton removeCustomerButton = new JButton(Strings.REMOVE_CUSTOMER_BUTTON);
 	private JButton updateCustomerButton = new JButton(Strings.UPDATE_CUSTOMER_BUTTON);
 
-	public AllCustomersView() {
+	public AllCustomersView(List<Customer> customers) {
+        this.customers = customers;
 		init();
 	}
 	
 	private void init () {
-		
+
+        customersTable.setModel(
+                new CustomersTableModel(customers));
 
 		tableScrollPane = new JScrollPane(customersTable);
 

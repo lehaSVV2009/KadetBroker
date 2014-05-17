@@ -19,7 +19,7 @@ public final class Strings {
 	public static final String CUSTOMER_ADDRESS_LABEL = "Address: ";
 	
 	public static final String ALL_CUSTOMERS_TAB = "All Customers";
-	public static final String PORTFOLIO_TAB = "Portfolio";
+	public static final String CUSTOMER_INFO_TAB = "Customer Info";
 	public static final String STOCKS_TAB = "Stocks";
 
 	public static final String LOGGER_LABEL = "Logger";

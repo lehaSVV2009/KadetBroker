@@ -1,7 +1,5 @@
 package com.kadet.kadetBroker.entity;
 
-public interface Entity <I> {
+public interface Entity {
 
-	public I getId ();
-	
 }

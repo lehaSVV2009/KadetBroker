@@ -88,5 +88,16 @@ public class DataModel {
 
     }
 
+    public void setFreeShares (List<Share> freeShares) {
+        this.freeShares = freeShares;
+    }
+
+    public List<Customer> getAllCustomers () {
+        List<Customer> customers = new ArrayList<Customer>();
+        for (Portfolio portfolio : portfolios) {
+            customers.add(portfolio.getCustomer());
+        }
+        return customers;
+    }
 
 }

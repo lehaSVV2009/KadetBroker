@@ -61,7 +61,7 @@ public class CustomersTableModel implements TableModel {
 		case 1:
 			return customer.getName();
 		case 2:
-			return customer.getAddr();
+			return customer.getAddress();
 		}
 		return "";
 	}
