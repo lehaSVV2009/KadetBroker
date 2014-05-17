@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class CustomerInfoView extends AbstractView {
 
-	private Customer customer;
+	private Customer currentCustomer;
 	
 	private JLabel customerIdLabel = new JLabel(Strings.CUSTOMER_ID_LABEL);
 	private JTextField customerIdTextField = new JTextField();
@@ -59,13 +59,32 @@ public class CustomerInfoView extends AbstractView {
 								.addComponent(customerAddressLabel)
 								.addComponent(customerAddressTextField))
         );
-		refresh();
 		
 	}
-	
-	@Override
+
+    public void setCurrentCustomer (Customer currentCustomer) {
+        this.currentCustomer = currentCustomer;
+    }
+
+    @Override
 	public void refresh() {
-		
+        if (currentCustomer.getId() != null) {
+            setCustomerTextFields(currentCustomer);
+        } else {
+            clearCustomerTextFields();
+        }
 	}
+
+    private void setCustomerTextFields (Customer customer) {
+        customerIdTextField.setText(customer.getId());
+        customerNameTextField.setText(customer.getName());
+        customerAddressTextField.setText(customer.getAddress());
+    }
+
+    private void clearCustomerTextFields () {
+        customerIdTextField.setText("");
+        customerNameTextField.setText("");
+        customerAddressTextField.setText("");
+    }
 
 }

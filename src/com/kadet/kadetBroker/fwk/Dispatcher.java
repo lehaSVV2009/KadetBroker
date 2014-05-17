@@ -1,6 +1,7 @@
 package com.kadet.kadetBroker.fwk;
 
 import com.kadet.kadetBroker.entity.Customer;
+import com.kadet.kadetBroker.entity.Share;
 import com.kadet.kadetBroker.model.DataModel;
 
 import java.util.List;
@@ -30,5 +31,27 @@ public class Dispatcher {
     public List<Customer> getAllCustomers () {
         return (List<Customer>)ProxyManager.getInstance().deepClone(dataModel.getAllCustomers());
     }
+
+    public List<Share> getFreeShares () {
+        return (List<Share>)ProxyManager.getInstance().deepClone(dataModel.getFreeShares());
+    }
+
+    public List<Customer> getDefaultAllCustomers () {
+        return DefaultModelManager.getInstance().createDefaultCustomers();
+    }
+
+    public List<Share> getDefaultFreeShares () {
+        return DefaultModelManager.getInstance().createDefaultShares();
+    }
+
+    public List<Share> getDefaultYourShares () {
+        return DefaultModelManager.getInstance().createDefaultShares();
+    }
+
+    public Customer getDefaultCustomer () {
+        return DefaultModelManager.getInstance().createDefaultCustomer();
+    }
+
+
 
 }

@@ -1,8 +1,6 @@
 package com.kadet.kadetBroker.fwk;
 
 import com.kadet.kadetBroker.view.AbstractView;
-import com.kadet.kadetBroker.view.ViewType;
-import sun.management.resources.agent_pt_BR;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +25,8 @@ public class ViewManager {
 
     private Map<Integer, AbstractView> activeViewsMap = new HashMap<Integer, AbstractView>();
 
-    public AbstractView newView (ViewType viewType, Object param) {
-        AbstractView view = ViewFactory.createView(viewType, param);
+    public AbstractView newView (String viewClassName) {
+        AbstractView view = ViewFactory.createView(viewClassName);
         viewsMap.put(view.getViewId(), view);
         return view;
     }
@@ -47,6 +45,12 @@ public class ViewManager {
 
     public void notifyViews (Object changedObject) {
         for (AbstractView view : activeViewsMap.values()) {
+            view.refresh();
+        }
+    }
+
+    public void refreshAllViews () {
+        for (AbstractView view : viewsMap.values()) {
             view.refresh();
         }
     }

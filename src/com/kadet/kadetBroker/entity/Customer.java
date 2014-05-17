@@ -35,8 +35,12 @@ public class Customer implements Serializable, Entity {
     public String getAddress (){
         return address;
     }
-    
-    // Mutator methods - note you cannot change the id
+
+
+    public void setId (String id) {
+        this.id = id;
+    }
+
     public void setName(String newName){
         name = newName;
     }

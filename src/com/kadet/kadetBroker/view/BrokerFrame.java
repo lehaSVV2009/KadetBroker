@@ -1,9 +1,12 @@
 package com.kadet.kadetBroker.view;
 
 import com.kadet.kadetBroker.fwk.ViewFactory;
+import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.util.Strings;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class BrokerFrame extends JFrame {
@@ -20,8 +23,16 @@ public class BrokerFrame extends JFrame {
 	
 	private void init () {
 		
-		this.tabsPanel = new JTabbedPane();
-		this.loggerView = ViewFactory.createLoggerView();
+		tabsPanel = new JTabbedPane();
+        tabsPanel.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged (ChangeEvent e) {
+                System.out.println("Tab was changed!" + ((AbstractView)tabsPanel.getSelectedComponent()).getViewId());
+                AbstractView view = (AbstractView)tabsPanel.getSelectedComponent();
+                view.refresh();
+            }
+        });
+		loggerView = ViewFactory.createLoggerView();
 		
 		setTitle(Strings.APP_TITLE); 
         setMinimumSize(new Dimension(600, 600));

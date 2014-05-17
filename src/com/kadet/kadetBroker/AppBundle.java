@@ -1,7 +1,7 @@
 package com.kadet.kadetBroker;
 
-import com.kadet.kadetBroker.controller.Controller;
-import com.kadet.kadetBroker.controller.ControllerType;
+import com.kadet.kadetBroker.controller.AllCustomersController;
+import com.kadet.kadetBroker.controller.StocksController;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.entity.Portfolio;
 import com.kadet.kadetBroker.entity.Share;
@@ -11,9 +11,7 @@ import com.kadet.kadetBroker.fwk.*;
 import com.kadet.kadetBroker.model.DataModel;
 import com.kadet.kadetBroker.util.Paths;
 import com.kadet.kadetBroker.util.Strings;
-import com.kadet.kadetBroker.view.AbstractView;
-import com.kadet.kadetBroker.view.BrokerFrame;
-import com.kadet.kadetBroker.view.ViewType;
+import com.kadet.kadetBroker.view.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,17 +80,35 @@ public class AppBundle {
             fillDataModel(dataModel);
             dispatcher.setModel(dataModel);
 
+            // Init CurrentCustomer
+            Customer currentCustomer = dispatcher.getDefaultCustomer();
+
             // Init AllCustomersView
-            List<Customer> customers = dispatcher.getAllCustomers();
-            AbstractView allCustomersView = viewManager.newView(ViewType.ALL_CUSTOMERS_VIEW, customers);
-            controllerManager.newController(ControllerType.ALL_CUSTOMERS_CONTROLLER, customers);
+            List<Customer> customers = dispatcher.getDefaultAllCustomers();
+            AllCustomersView allCustomersView = (AllCustomersView)viewManager.newView(AllCustomersView.class.getName());
+            allCustomersView.setCustomers(customers);
+            allCustomersView.setCurrentCustomer(currentCustomer);
+            AllCustomersController allCustomersController = (AllCustomersController)controllerManager.newController(AllCustomersController.class.getName());
+            allCustomersController.setCustomers(customers);
+            allCustomersController.setCurrentCustomer(currentCustomer);
 
             // Init CustomerInfoView
-            AbstractView customerInfoView = viewManager.newView(ViewType.CUSTOMER_INFO_VIEW, null);
+            CustomerInfoView customerInfoView = (CustomerInfoView)viewManager.newView(CustomerInfoView.class.getName());
+            customerInfoView.setCurrentCustomer(currentCustomer);
 
             // Init StocksView
-            AbstractView stocksView = viewManager.newView(ViewType.STOCKS_VIEW, null);
-            controllerManager.newController(ControllerType.STOCKS_CONTROLLER, null);
+            List<Share> freeShares = dispatcher.getDefaultFreeShares();
+            List<Share> yourShares = dispatcher.getDefaultYourShares();
+            StocksView stocksView = (StocksView)viewManager.newView(StocksView.class.getName());
+            stocksView.setFreeShares(freeShares);
+            stocksView.setYourShares(yourShares);
+            stocksView.setCurrentCustomer(currentCustomer);
+            StocksController stocksController = (StocksController)controllerManager.newController(StocksController.class.getName());
+            stocksController.setFreeShares(freeShares);
+            stocksController.setYourShares(yourShares);
+            stocksController.setCurrentCustomer(currentCustomer);
+
+            viewManager.refreshAllViews();
 
             // Init Broker Frame
             BrokerFrame brokerFrame = new BrokerFrame();
@@ -118,17 +134,17 @@ public class AppBundle {
         Customer customer3 = new Customer("125", "Kadet3", "Address3");
         Customer customer4 = new Customer("126", "Kadet4", "Address4");
 
-        Share share1 = new Share(new Stock("AB", 100000));
-        Share share2 = new Share(new Stock("AC", 2134213));
-        Share share3 = new Share(new Stock("AD", 324242));
-        Share share4 = new Share(new Stock("AE", 34535));
-        Share share5 = new Share(new Stock("AF", 10000));
-        Share share6 = new Share(new Stock("AG", 100034));
-        Share share7 = new Share(new Stock("AH", 657867));
-        Share share8 = new Share(new Stock("Free1", 23423));
-        Share share9 = new Share(new Stock("Free2", 456456));
-        Share share10 = new Share(new Stock("Free3", 45646));
-        Share share11 = new Share(new Stock("Free4", 567567657));
+        Share share1 = new Share(new Stock("AB", 100000), 12);
+        Share share2 = new Share(new Stock("AC", 2134213), 11);
+        Share share3 = new Share(new Stock("AD", 324242), 12);
+        Share share4 = new Share(new Stock("AE", 34535), 1);
+        Share share5 = new Share(new Stock("AF", 10000), 3);
+        Share share6 = new Share(new Stock("AG", 100034), 5);
+        Share share7 = new Share(new Stock("AH", 657867), 6);
+        Share share8 = new Share(new Stock("Free1", 23423), 7);
+        Share share9 = new Share(new Stock("Free2", 456456), 4);
+        Share share10 = new Share(new Stock("Free3", 45646), 5);
+        Share share11 = new Share(new Stock("Free4", 567567657), 2);
 
         List<Share> shares1 = new ArrayList<Share>();
         shares1.add(share1);

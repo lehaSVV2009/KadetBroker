@@ -26,20 +26,11 @@ public class ViewFactory {
     }
 
 
-    public static AbstractView createView (ViewType viewType, Object parameter) {
-        switch (viewType) {
-            case ALL_CUSTOMERS_VIEW : {
-                return new AllCustomersView((List<Customer>)parameter);
-            }
-            case CUSTOMER_INFO_VIEW: {
-                return new CustomerInfoView();
-            }
-            case STOCKS_VIEW : {
-                return new StocksView();
-            }
-            default : {
-                return new EmptyView();
-            }
+    public static AbstractView createView (String className) {
+        try {
+            return (AbstractView) Class.forName(className).newInstance();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unable to instantiate" + className);
         }
     }
 

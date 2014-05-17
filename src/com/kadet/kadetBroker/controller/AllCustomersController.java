@@ -16,12 +16,14 @@ public class AllCustomersController implements Controller {
     private List<Customer> customers = new ArrayList<Customer>();
     private Customer currentCustomer = null;
 
-    public AllCustomersController (List<Customer> customers) {
+    public AllCustomersController () {
+    }
+
+    public void setCustomers (List<Customer> customers) {
         this.customers = customers;
     }
 
-    public void showCustomersNumber () {
-        System.out.println("Customers size" + customers.size());
+    public void setCurrentCustomer (Customer currentCustomer) {
+        this.currentCustomer = currentCustomer;
     }
-
 }

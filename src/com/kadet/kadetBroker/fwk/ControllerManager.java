@@ -1,8 +1,6 @@
 package com.kadet.kadetBroker.fwk;
 
 import com.kadet.kadetBroker.controller.Controller;
-import com.kadet.kadetBroker.controller.ControllerType;
-import sun.management.resources.agent_pt_BR;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +23,8 @@ public class ControllerManager {
 
     private List<Controller> controllers = new ArrayList<Controller>();
 
-    public Controller newController (ControllerType controllerType, Object parameter) {
-        Controller controller = ControllerFactory.createController(controllerType, parameter);
+    public Controller newController (String controllerClassName) {
+        Controller controller = ControllerFactory.createController(controllerClassName);
         controllers.add(controller);
         return controller;
     }

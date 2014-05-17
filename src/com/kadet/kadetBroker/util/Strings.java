@@ -13,6 +13,9 @@ public final class Strings {
 	public static final String SELL_STOCK_BUTTON = "Sell";
     public static final String YOUR_STOCKS_LABEL = "Your Stocks";
     public static final String FREE_STOCKS_LABEL = "Free Stocks";
+    public static final String STOCK_NAME_LABEL = "Name: ";
+    public static final String STOCK_QUANTITY_LABEL = "Quantity: ";
+
 
 	public static final String CUSTOMER_ID_LABEL = "ID: ";
 	public static final String CUSTOMER_NAME_LABEL = "Name: ";
