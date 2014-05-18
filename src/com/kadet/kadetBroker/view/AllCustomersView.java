@@ -1,32 +1,20 @@
 package com.kadet.kadetBroker.view;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
+import javax.swing.*;
 
-import com.kadet.kadetBroker.actions.ButtonAction;
+import com.kadet.kadetBroker.actions.AllCustomersButtonAction;
+import com.kadet.kadetBroker.actions.CustomerTableMouseAction;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.fwk.Dispatcher;
-import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.util.Strings;
 
-public class AllCustomersView extends AbstractView {
+public class AllCustomersView extends JPanel implements View {
 
-    private Customer currentCustomer = null;
-    private List<Customer> customers = new ArrayList<Customer>();
+    private Customer currentCustomer;
+    private List<Customer> customers;
 
     private JScrollPane tableScrollPane = new JScrollPane();
     private JTable customersTable = new JTable();
@@ -41,28 +29,15 @@ public class AllCustomersView extends AbstractView {
 
     private void init () {
 
-        customersTable.addMouseListener(new MouseAdapter() {
-            public void mouseClicked (MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    int selectedRowIndex = customersTable.getSelectedRow();
-                    String id = (String)customersTable.getModel().getValueAt(selectedRowIndex, 0);
-                    String name = (String)customersTable.getModel().getValueAt(selectedRowIndex, 1);
-                    String address = (String)customersTable.getModel().getValueAt(selectedRowIndex, 2);
-                    currentCustomer.setId(id);
-                    currentCustomer.setName(name);
-                    currentCustomer.setAddress(address);
-
-                }
-            }
-        });
+        customersTable.addMouseListener(new CustomerTableMouseAction());
 
         tableScrollPane = new JScrollPane(customersTable);
 
-        ButtonAction buttonAction
-                = new ButtonAction();
-        addCustomerButton.addActionListener(buttonAction);
-        removeCustomerButton.addActionListener(buttonAction);
-        updateCustomerButton.addActionListener(buttonAction);
+        AllCustomersButtonAction allCustomersButtonAction
+                = new AllCustomersButtonAction();
+        addCustomerButton.addActionListener(allCustomersButtonAction);
+        removeCustomerButton.addActionListener(allCustomersButtonAction);
+        updateCustomerButton.addActionListener(allCustomersButtonAction);
 
         GroupLayout layout = new GroupLayout(this);
         layout.setAutoCreateGaps(true);
@@ -101,13 +76,29 @@ public class AllCustomersView extends AbstractView {
         this.currentCustomer = currentCustomer;
     }
 
+    public Customer getCurrentCustomer () {
+        return currentCustomer;
+    }
+
+    public List<Customer> getCustomers () {
+        return customers;
+    }
+
     @Override
     public void refresh () {
 
-        customers = Dispatcher.getInstance().getAllCustomers();
+        customers.clear();
+        for (Customer customer : Dispatcher.getInstance().getAllCustomers()) {
+            customers.add(customer);
+        }
         customersTable.setModel(
                 new CustomersTableModel(customers));
 
+    }
+
+    @Override
+    public void refresh (Object changedObject) {
+        this.currentCustomer = (Customer)changedObject;
     }
 
 }

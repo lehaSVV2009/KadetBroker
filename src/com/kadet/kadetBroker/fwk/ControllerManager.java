@@ -32,5 +32,15 @@ public class ControllerManager {
     public void removeController (Controller controller) {
         controllers.remove(controller);
     }
+
+    public List<Controller> getControllersByClassName (String className) {
+        List<Controller> controllersWithSuchClassName = new ArrayList<Controller>();
+        for (Controller controller : controllers) {
+            if (className.equals(controller.getClass().getName())) {
+                controllersWithSuchClassName.add(controller);
+            }
+        }
+        return controllersWithSuchClassName;
+    }
     
 }

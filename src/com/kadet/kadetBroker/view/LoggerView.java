@@ -5,15 +5,11 @@ import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
-import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.util.Strings;
 
-public class LoggerView extends AbstractView {
+public class LoggerView extends JPanel implements View {
 
 	private Map<Integer, StringBuilder> viewIdTextMap = new HashMap<Integer, StringBuilder>(); 
 	
@@ -47,5 +43,10 @@ public class LoggerView extends AbstractView {
 	public void refresh() {
 		
 	}
+
+    @Override
+    public void refresh (Object changedObject) {
+
+    }
 
 }

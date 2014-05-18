@@ -5,7 +5,7 @@ import com.kadet.kadetBroker.util.Strings;
 
 import javax.swing.*;
 
-public class CustomerInfoView extends AbstractView {
+public class CustomerInfoView extends JPanel implements View {
 
 	private Customer currentCustomer;
 	
@@ -74,6 +74,11 @@ public class CustomerInfoView extends AbstractView {
             clearCustomerTextFields();
         }
 	}
+
+    @Override
+    public void refresh (Object changedObject) {
+        this.currentCustomer = (Customer)changedObject;
+    }
 
     private void setCustomerTextFields (Customer customer) {
         customerIdTextField.setText(customer.getId());

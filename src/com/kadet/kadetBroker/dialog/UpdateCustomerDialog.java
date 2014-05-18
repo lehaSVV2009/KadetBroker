@@ -1,16 +1,16 @@
-package com.kadet.kadetBroker.view;
+package com.kadet.kadetBroker.dialog;
 
-import com.kadet.kadetBroker.entity.Customer;
+import com.kadet.kadetBroker.view.View;
 
 import javax.swing.*;
 
 /**
- * Date: 16.05.14
- * Time: 8:03
+ * Date: 18.05.14
+ * Time: 0:05
  *
  * @author SarokaA
  */
-public class EmptyView extends JPanel implements View {
+public class UpdateCustomerDialog extends JDialog implements View{
 
     @Override
     public void refresh () {
@@ -21,6 +21,5 @@ public class EmptyView extends JPanel implements View {
     public void refresh (Object changedObject) {
 
     }
-
 
 }

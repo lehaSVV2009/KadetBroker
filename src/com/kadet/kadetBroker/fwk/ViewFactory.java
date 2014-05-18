@@ -1,9 +1,6 @@
 package com.kadet.kadetBroker.fwk;
 
-import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.view.*;
-
-import java.util.List;
 
 /**
  * Date: 16.05.14
@@ -26,9 +23,9 @@ public class ViewFactory {
     }
 
 
-    public static AbstractView createView (String className) {
+    public static View createView (String className) {
         try {
-            return (AbstractView) Class.forName(className).newInstance();
+            return (View) Class.forName(className).newInstance();
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to instantiate" + className);
         }

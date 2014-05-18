@@ -80,33 +80,38 @@ public class AppBundle {
             fillDataModel(dataModel);
             dispatcher.setModel(dataModel);
 
-            // Init CurrentCustomer
-            Customer currentCustomer = dispatcher.getDefaultCustomer();
 
             // Init AllCustomersView
+            Customer allCustomersViewCustomer = dispatcher.getDefaultCustomer();
             List<Customer> customers = dispatcher.getDefaultAllCustomers();
             AllCustomersView allCustomersView = (AllCustomersView)viewManager.newView(AllCustomersView.class.getName());
             allCustomersView.setCustomers(customers);
-            allCustomersView.setCurrentCustomer(currentCustomer);
+            allCustomersView.setCurrentCustomer(allCustomersViewCustomer);
+            viewManager.addPropertyChangeListener(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, allCustomersView);
             AllCustomersController allCustomersController = (AllCustomersController)controllerManager.newController(AllCustomersController.class.getName());
             allCustomersController.setCustomers(customers);
-            allCustomersController.setCurrentCustomer(currentCustomer);
+            allCustomersController.setCurrentCustomer(allCustomersViewCustomer);
 
             // Init CustomerInfoView
+            Customer customerInfoViewCustomer = dispatcher.getDefaultCustomer();
             CustomerInfoView customerInfoView = (CustomerInfoView)viewManager.newView(CustomerInfoView.class.getName());
-            customerInfoView.setCurrentCustomer(currentCustomer);
+            customerInfoView.setCurrentCustomer(customerInfoViewCustomer);
+            viewManager.addPropertyChangeListener(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, customerInfoView);
 
             // Init StocksView
             List<Share> freeShares = dispatcher.getDefaultFreeShares();
             List<Share> yourShares = dispatcher.getDefaultYourShares();
+            Customer stocksViewCustomer = dispatcher.getDefaultCustomer();
             StocksView stocksView = (StocksView)viewManager.newView(StocksView.class.getName());
             stocksView.setFreeShares(freeShares);
             stocksView.setYourShares(yourShares);
-            stocksView.setCurrentCustomer(currentCustomer);
+            stocksView.setCurrentCustomer(stocksViewCustomer);
             StocksController stocksController = (StocksController)controllerManager.newController(StocksController.class.getName());
             stocksController.setFreeShares(freeShares);
             stocksController.setYourShares(yourShares);
-            stocksController.setCurrentCustomer(currentCustomer);
+            stocksController.setCurrentCustomer(stocksViewCustomer);
+            viewManager.addPropertyChangeListener(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, stocksView);
+
 
             viewManager.refreshAllViews();
 

@@ -1,5 +1,6 @@
 package com.kadet.kadetBroker.view;
 
+import com.kadet.kadetBroker.exception.KadetException;
 import com.kadet.kadetBroker.fwk.ViewFactory;
 import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.util.Strings;
@@ -25,11 +26,34 @@ public class BrokerFrame extends JFrame {
 		
 		tabsPanel = new JTabbedPane();
         tabsPanel.addChangeListener(new ChangeListener() {
+
+            private View oldView;
+
             @Override
             public void stateChanged (ChangeEvent e) {
-                System.out.println("Tab was changed!" + ((AbstractView)tabsPanel.getSelectedComponent()).getViewId());
-                AbstractView view = (AbstractView)tabsPanel.getSelectedComponent();
+
+                //TODO: change to addActiveViews
+                View view = (View)tabsPanel.getSelectedComponent();
+                ViewManager.getInstance().setActiveView(view);
                 view.refresh();
+
+
+                /*try {
+
+                    View view = (View)tabsPanel.getSelectedComponent();
+                    ViewManager.getInstance().addActiveView(view);
+                    view.refresh();
+
+                    if (oldView != null) {
+                        ViewManager.getInstance().removeActiveView(oldView);
+                    }
+                    System.out.println("\nOld view: " + oldView + "\nNew View" + view);
+
+                    oldView = view;
+
+                } catch (KadetException e1) {
+                    e1.printStackTrace();
+                }*/
             }
         });
 		loggerView = ViewFactory.createLoggerView();
@@ -48,7 +72,7 @@ public class BrokerFrame extends JFrame {
 	}
 	
 	
-	public void addTab (String tab, AbstractView view) {
+	public void addTab (String tab, JComponent view) {
 		tabsPanel.addTab(tab, view);
 	}
 

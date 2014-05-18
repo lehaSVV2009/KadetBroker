@@ -1,10 +1,13 @@
 package com.kadet.kadetBroker.fwk;
 
+import com.kadet.kadetBroker.entity.Entity;
 import com.kadet.kadetBroker.exception.KadetException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * Date: 16.05.14
@@ -49,5 +52,23 @@ public class PropertiesManager {
             throw new KadetException("Not correct path to view_controller_mapping.properties");
         }
     }
+
+    public String getControllerClassNameByViewClassName (String viewClassName) {
+        String viewName = getViewNameByViewClassName(viewClassName);
+        String controllerName = viewControllerMappingProperties.getProperty(viewName);
+        String controllerClassName = controllersProperties.getProperty(controllerName);
+        return controllerClassName;
+    }
+
+    public String getViewNameByViewClassName (String viewClassName) {
+        Set<Map.Entry<Object, Object>> viewsPropertiesSet = viewsProperties.entrySet();
+        for (Map.Entry<Object, Object> viewProperty : viewsPropertiesSet) {
+            if (viewClassName.equals(viewProperty.getValue())) {
+                return (String)viewProperty.getKey();
+            }
+        }
+        return "";
+    }
+
 
 }

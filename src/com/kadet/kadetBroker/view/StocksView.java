@@ -2,6 +2,7 @@ package com.kadet.kadetBroker.view;
 
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.entity.Share;
+import com.kadet.kadetBroker.exception.KadetException;
 import com.kadet.kadetBroker.fwk.Dispatcher;
 import com.kadet.kadetBroker.util.Strings;
 
@@ -9,7 +10,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StocksView extends AbstractView {
+public class StocksView extends JPanel implements View {
 
     private Customer currentCustomer;
 
@@ -119,7 +120,14 @@ public class StocksView extends AbstractView {
     @Override
 	public void refresh() {
 
-        // TODO: yourShares = ...
+        if (currentCustomer.getId() != null) {
+            try {
+                yourShares = Dispatcher.getInstance().getCustomerShares(currentCustomer);
+            } catch (KadetException e) {
+                e.printStackTrace();
+            }
+        }
+
         freeShares = Dispatcher.getInstance().getFreeShares();
 
         yourSharesTable.setModel(
@@ -127,6 +135,11 @@ public class StocksView extends AbstractView {
         freeSharesTable.setModel(
                 new SharesTableModel(freeShares));
 
+    }
+
+    @Override
+    public void refresh (Object changedObject) {
+        this.currentCustomer = (Customer)changedObject;
     }
 
 }

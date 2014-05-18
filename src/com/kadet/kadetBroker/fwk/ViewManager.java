@@ -1,9 +1,10 @@
 package com.kadet.kadetBroker.fwk;
 
-import com.kadet.kadetBroker.view.AbstractView;
+import com.kadet.kadetBroker.exception.KadetException;
+import com.kadet.kadetBroker.util.Strings;
+import com.kadet.kadetBroker.view.View;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Date: 16.05.14
@@ -21,36 +22,91 @@ public class ViewManager {
 
     private ViewManager() {}
 
-    private Map<Integer, AbstractView> viewsMap = new HashMap<Integer, AbstractView>();
+    public static int viewId = 0;
 
-    private Map<Integer, AbstractView> activeViewsMap = new HashMap<Integer, AbstractView>();
+    private Map<Integer, View> viewsMap = new HashMap<Integer, View>();
 
-    public AbstractView newView (String viewClassName) {
-        AbstractView view = ViewFactory.createView(viewClassName);
-        viewsMap.put(view.getViewId(), view);
+    private Map<Integer, View> activeViewsMap = new HashMap<Integer, View>();
+
+
+    //TODO: remove later
+    private View activeView;
+
+    private Map<PropertyChangingType, List<View>> propertyChangesActions = new HashMap<PropertyChangingType, List<View>>();
+
+    public View newView (String viewClassName) {
+        View view = ViewFactory.createView(viewClassName);
+        viewsMap.put(viewId ++, view);
         return view;
     }
 
-    public AbstractView removeView (Integer viewId) {
+    public View removeView (Integer viewId) {
         return viewsMap.remove(viewId);
     }
 
-    public void addActiveView (Integer viewId) {
-        activeViewsMap.put(viewId, viewsMap.get(viewId));
-    }
-
-    public void removeActiveView (Integer viewId) {
-        activeViewsMap.remove(viewId);
-    }
-
-    public void notifyViews (Object changedObject) {
-        for (AbstractView view : activeViewsMap.values()) {
-            view.refresh();
+    public void addActiveView (View view) throws KadetException {
+        if (!viewsMap.containsValue(view)) {
+            throw new KadetException(Strings.THERE_IS_NO_SUCH_VIEW_EXCEPTION);
+        } else {
+            Set<Map.Entry<Integer, View>> viewIdViewSet = viewsMap.entrySet();
+            for (Map.Entry<Integer, View> viewIdView : viewIdViewSet) {
+                if (view == viewIdView.getValue()) {
+                    activeViewsMap.put(viewIdView.getKey(), view);
+                    return;
+                }
+            }
         }
     }
 
+    public void removeActiveView (View view) throws KadetException {
+        if (!viewsMap.containsValue(view)) {
+            throw new KadetException(Strings.THERE_IS_NO_SUCH_VIEW_EXCEPTION);
+        } else {
+            Set<Map.Entry<Integer, View>> viewIdViewSet = viewsMap.entrySet();
+            for (Map.Entry<Integer, View> viewIdView : viewIdViewSet) {
+                if (view == viewIdView.getValue()) {
+                    activeViewsMap.remove(viewIdView.getKey());
+                    return;
+                }
+            }
+        }
+    }
+
+    public void setActiveView (View activeView) {
+        this.activeView = activeView;
+    }
+
+    public View getActiveView () {
+        return activeView;
+    }
+
+    public List<View> getActiveViews () {
+        return (List<View>) activeViewsMap.values();
+    }
+
+    public void addPropertyChangeListener (PropertyChangingType propertyChangingType,  View view) {
+        if(!propertyChangesActions.containsKey(propertyChangingType)) {
+            List<View> views = new ArrayList<View>();
+            views.add(view);
+            propertyChangesActions.put(propertyChangingType, views);
+        } else {
+            List<View> views = propertyChangesActions.get(propertyChangingType);
+            views.add(view);
+        }
+    }
+
+    public void notifyPropertyChange (PropertyChangingType propertyChangingType, Object changedObject) {
+        List<View> views = propertyChangesActions.get(propertyChangingType);
+        if (views != null) {
+            for (View view : views) {
+                view.refresh(changedObject);
+            }
+        }
+    }
+
+
     public void refreshAllViews () {
-        for (AbstractView view : viewsMap.values()) {
+        for (View view : viewsMap.values()) {
             view.refresh();
         }
     }

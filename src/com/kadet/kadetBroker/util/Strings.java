@@ -28,10 +28,19 @@ public final class Strings {
 	public static final String LOGGER_LABEL = "Logger";
 
     /**
+     * Dialogs
+     */
+    public static final String ADD_CUSTOMER_DIALOG = "Add new customer";
+    public static final String UPDATE_CUSTOMER_DIALOG = "Update customer";
+
+    public static final String RESET_CUSTOMER_BUTTON = "Reset";
+
+    /**
      * Exceptions
      */
     public static final String CAN_NOT_FIND_CUSTOMER_EXCEPTION = "Can not find customer!";
     public static final String CAN_NOT_FIND_CUSTOMER_PORTFOLIO_EXCEPTION = "Can not find customer portfolio!";
+    public static final String THERE_IS_NO_SUCH_VIEW_EXCEPTION = "There is no such view in the ViewManager!";
 
 
 }

@@ -16,6 +16,7 @@ public class Main {
     public static void main(String []args) {
 
         AppBundle bundle = new AppBundle();
+        AppBundle bundle2 = new AppBundle();
 
     }
 

@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Date: 16.05.14
- * Time: 5:22
+ * Date: 18.05.14
+ * Time: 8:15
  *
- * @author Кадет
+ * @author SarokaA
  */
-public class ButtonAction implements ActionListener {
+public class AddCustomerButtonActions implements ActionListener {
 
     @Override
     public void actionPerformed (ActionEvent e) {
