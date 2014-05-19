@@ -1,5 +1,7 @@
 package com.kadet.kadetBroker.controller;
 
+import com.kadet.kadetBroker.dto.DTO;
+import com.kadet.kadetBroker.dto.StocksDTO;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.entity.Share;
 
@@ -14,19 +16,22 @@ import java.util.List;
  */
 public class StocksController implements Controller {
 
-    private List<Share> freeShares = new ArrayList<Share>();
-    private List<Share> yourShares = new ArrayList<Share>();
+    private StocksDTO stocksDTO;
+
+    private List<Share> freeShares;
+    private List<Share> yourShares;
     private Customer currentCustomer;
 
-    public void setFreeShares (List<Share> freeShares) {
-        this.freeShares = freeShares;
+    @Override
+    public void setModel (DTO model) {
+        this.stocksDTO = (StocksDTO) model;
+        this.freeShares = stocksDTO.getFreeShares();
+        this.yourShares = stocksDTO.getYourShares();
+        this.currentCustomer = stocksDTO.getCurrentCustomer();
     }
 
-    public void setYourShares (List<Share> yourShares) {
-        this.yourShares = yourShares;
-    }
-
-    public void setCurrentCustomer (Customer currentCustomer) {
-        this.currentCustomer = currentCustomer;
+    @Override
+    public DTO getModel () {
+        return stocksDTO;
     }
 }

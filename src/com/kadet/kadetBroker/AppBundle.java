@@ -2,6 +2,10 @@ package com.kadet.kadetBroker;
 
 import com.kadet.kadetBroker.controller.AllCustomersController;
 import com.kadet.kadetBroker.controller.StocksController;
+import com.kadet.kadetBroker.dto.AllCustomersDTO;
+import com.kadet.kadetBroker.dto.CustomerInfoDTO;
+import com.kadet.kadetBroker.dto.DTO;
+import com.kadet.kadetBroker.dto.StocksDTO;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.entity.Portfolio;
 import com.kadet.kadetBroker.entity.Share;
@@ -84,32 +88,41 @@ public class AppBundle {
             // Init AllCustomersView
             Customer allCustomersViewCustomer = dispatcher.getDefaultCustomer();
             List<Customer> customers = dispatcher.getDefaultAllCustomers();
+            DTO allCustomersDTO = new AllCustomersDTO(customers, allCustomersViewCustomer);
             AllCustomersView allCustomersView = (AllCustomersView)viewManager.newView(AllCustomersView.class.getName());
-            allCustomersView.setCustomers(customers);
-            allCustomersView.setCurrentCustomer(allCustomersViewCustomer);
+            allCustomersView.setModel(allCustomersDTO);
+//            allCustomersView.setCustomers(customers);
+//            allCustomersView.setCurrentCustomer(allCustomersViewCustomer);
             viewManager.addPropertyChangeListener(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, allCustomersView);
+            viewManager.addPropertyChangeListener(PropertyChangingType.REFRESH_CUSTOMER_LIST, allCustomersView);
             AllCustomersController allCustomersController = (AllCustomersController)controllerManager.newController(AllCustomersController.class.getName());
-            allCustomersController.setCustomers(customers);
-            allCustomersController.setCurrentCustomer(allCustomersViewCustomer);
+            allCustomersController.setModel(allCustomersDTO);
+//            allCustomersController.setCustomers(customers);
+//            allCustomersController.setCurrentCustomer(allCustomersViewCustomer);
 
             // Init CustomerInfoView
             Customer customerInfoViewCustomer = dispatcher.getDefaultCustomer();
+            CustomerInfoDTO customerInfoDTO = new CustomerInfoDTO(customerInfoViewCustomer);
             CustomerInfoView customerInfoView = (CustomerInfoView)viewManager.newView(CustomerInfoView.class.getName());
-            customerInfoView.setCurrentCustomer(customerInfoViewCustomer);
+            customerInfoView.setModel(customerInfoDTO);
+//            customerInfoView.setCurrentCustomer(customerInfoViewCustomer);
             viewManager.addPropertyChangeListener(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, customerInfoView);
 
             // Init StocksView
             List<Share> freeShares = dispatcher.getDefaultFreeShares();
             List<Share> yourShares = dispatcher.getDefaultYourShares();
             Customer stocksViewCustomer = dispatcher.getDefaultCustomer();
+            StocksDTO stocksDTO = new StocksDTO(stocksViewCustomer, yourShares, freeShares);
             StocksView stocksView = (StocksView)viewManager.newView(StocksView.class.getName());
-            stocksView.setFreeShares(freeShares);
-            stocksView.setYourShares(yourShares);
-            stocksView.setCurrentCustomer(stocksViewCustomer);
+//            stocksView.setFreeShares(freeShares);
+//            stocksView.setYourShares(yourShares);
+//            stocksView.setCurrentCustomer(stocksViewCustomer);
+            stocksView.setModel(stocksDTO);
             StocksController stocksController = (StocksController)controllerManager.newController(StocksController.class.getName());
-            stocksController.setFreeShares(freeShares);
-            stocksController.setYourShares(yourShares);
-            stocksController.setCurrentCustomer(stocksViewCustomer);
+//            stocksController.setFreeShares(freeShares);
+//            stocksController.setYourShares(yourShares);
+//            stocksController.setCurrentCustomer(stocksViewCustomer);
+            stocksController.setModel(stocksDTO);
             viewManager.addPropertyChangeListener(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, stocksView);
 
 
@@ -128,7 +141,6 @@ public class AppBundle {
         } catch (KadetException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
 
     }
 

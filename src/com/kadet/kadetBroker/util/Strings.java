@@ -27,6 +27,21 @@ public final class Strings {
 
 	public static final String LOGGER_LABEL = "Logger";
 
+
+    /**
+     * TextFields TYPES
+     */
+    public static final String TEXT_FIELD_TYPE = "TextFieldType";
+    public static final String NAME_TEXT_FIELD = "NameTextField";
+    public static final String ADDRESS_TEXT_FIELD = "AddressTextField";
+
+
+    /**
+     * Logger Texts
+     */
+    public static final String CHOOSE_CUSTOMER = "Please, choose Customer!";
+
+
     /**
      * Dialogs
      */

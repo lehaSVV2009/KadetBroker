@@ -1,8 +1,5 @@
 package com.kadet.kadetBroker.fwk;
 
-import com.kadet.kadetBroker.view.LoggerView;
-import com.kadet.kadetBroker.view.View;
-
 import javax.swing.*;
 
 /**

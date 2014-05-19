@@ -2,6 +2,7 @@ package com.kadet.kadetBroker.fwk;
 
 import com.kadet.kadetBroker.exception.KadetException;
 import com.kadet.kadetBroker.util.Strings;
+import com.kadet.kadetBroker.view.LoggerPanel;
 import com.kadet.kadetBroker.view.View;
 
 import java.util.*;
@@ -31,6 +32,9 @@ public class ViewManager {
 
     //TODO: remove later
     private View activeView;
+
+    //TODO: once again
+    private LoggerPanel activeLoggerPanel;
 
     private Map<PropertyChangingType, List<View>> propertyChangesActions = new HashMap<PropertyChangingType, List<View>>();
 
@@ -80,6 +84,14 @@ public class ViewManager {
         return activeView;
     }
 
+    public void setActiveLoggerPanel (LoggerPanel activeLoggerPanel) {
+        this.activeLoggerPanel = activeLoggerPanel;
+    }
+
+    public LoggerPanel getActiveLoggerPanel () {
+        return activeLoggerPanel;
+    }
+
     public List<View> getActiveViews () {
         return (List<View>) activeViewsMap.values();
     }
@@ -99,7 +111,7 @@ public class ViewManager {
         List<View> views = propertyChangesActions.get(propertyChangingType);
         if (views != null) {
             for (View view : views) {
-                view.refresh(changedObject);
+                view.refresh(propertyChangingType, changedObject);
             }
         }
     }

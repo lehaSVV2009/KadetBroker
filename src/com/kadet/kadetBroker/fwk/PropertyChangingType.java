@@ -8,6 +8,7 @@ package com.kadet.kadetBroker.fwk;
  */
 public enum PropertyChangingType {
 
-    CURRENT_CUSTOMER_CHANGING
+    CURRENT_CUSTOMER_CHANGING,
+    REFRESH_CUSTOMER_LIST
 
 }

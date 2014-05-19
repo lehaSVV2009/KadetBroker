@@ -1,5 +1,7 @@
 package com.kadet.kadetBroker.fwk;
 
+import com.kadet.kadetBroker.dto.AddCustomerDTO;
+import com.kadet.kadetBroker.dto.UpdateCustomerDTO;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.entity.Share;
 import com.kadet.kadetBroker.exception.KadetException;
@@ -56,6 +58,23 @@ public class Dispatcher {
     public Customer getDefaultCustomer () {
         return DefaultModelManager.getInstance().createDefaultCustomer();
     }
+
+
+
+
+    public void addCustomer (AddCustomerDTO addCustomerDTO) {
+        Customer customer = addCustomerDTO.getCustomer();
+        dataModel.addCustomer(customer);
+        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.REFRESH_CUSTOMER_LIST, customer);
+    }
+
+    public void updateCustomer (UpdateCustomerDTO updateCustomerDTO) {
+        Customer customer = updateCustomerDTO.getNewCustomer();
+        dataModel.updateCustomer(customer);
+        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.REFRESH_CUSTOMER_LIST, customer);
+        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, customer);
+    }
+
 
 
 }

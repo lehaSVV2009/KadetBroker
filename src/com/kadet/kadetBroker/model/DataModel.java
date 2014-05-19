@@ -34,7 +34,8 @@ public class DataModel {
         for (Portfolio portfolio : portfolios) {
             Customer customerFromList = portfolio.getCustomer();
             if (customerFromList.getId().equals(customer.getId())) {
-                customerFromList = customer;
+                customerFromList.setName(customer.getName());
+                customerFromList.setAddress(customer.getAddress());
             }
         }
     }
@@ -84,13 +85,7 @@ public class DataModel {
 
     }
 
-    public void buyStocks (Customer customer, Stock stock, int stocksNumber) {
-
-    }
-
-    public void setFreeShares (List<Share> freeShares) {
-        this.freeShares = freeShares;
-    }
+    public void buyStocks (Customer customer, Stock stock, int stocksNumber) {}
 
     public List<Customer> getAllCustomers () {
         List<Customer> customers = new ArrayList<Customer>();
@@ -100,4 +95,7 @@ public class DataModel {
         return customers;
     }
 
+    public void setFreeShares (List<Share> freeShares) {
+        this.freeShares = freeShares;
+    }
 }

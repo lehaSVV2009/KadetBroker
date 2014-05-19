@@ -1,6 +1,8 @@
 package com.kadet.kadetBroker.view;
 
+import com.kadet.kadetBroker.dto.DTO;
 import com.kadet.kadetBroker.entity.Customer;
+import com.kadet.kadetBroker.fwk.PropertyChangingType;
 
 import javax.swing.*;
 
@@ -18,9 +20,18 @@ public class EmptyView extends JPanel implements View {
     }
 
     @Override
-    public void refresh (Object changedObject) {
+    public void refresh (PropertyChangingType changingType, Object changedObject) {
 
     }
 
 
+    @Override
+    public void setModel (DTO model) {
+
+    }
+
+    @Override
+    public DTO getModel () {
+        return null;
+    }
 }

@@ -1,8 +1,11 @@
 package com.kadet.kadetBroker.view;
 
-public interface View {
+import com.kadet.kadetBroker.fwk.DTOContainer;
+import com.kadet.kadetBroker.fwk.PropertyChangingType;
 
-	public abstract void refresh ();
-    public abstract void refresh (Object changedObject);
+public interface View extends DTOContainer {
+
+	public void refresh ();
+    public void refresh (PropertyChangingType propertyChangingType, Object changedObject);
 
 }

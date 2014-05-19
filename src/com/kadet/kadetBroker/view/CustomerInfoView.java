@@ -1,11 +1,17 @@
 package com.kadet.kadetBroker.view;
 
+import com.kadet.kadetBroker.dto.CustomerInfoDTO;
+import com.kadet.kadetBroker.dto.DTO;
 import com.kadet.kadetBroker.entity.Customer;
+import com.kadet.kadetBroker.fwk.DTOContainer;
+import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.util.Strings;
 
 import javax.swing.*;
 
 public class CustomerInfoView extends JPanel implements View {
+
+    private CustomerInfoDTO customerInfoDTO;
 
 	private Customer currentCustomer;
 	
@@ -62,10 +68,6 @@ public class CustomerInfoView extends JPanel implements View {
 		
 	}
 
-    public void setCurrentCustomer (Customer currentCustomer) {
-        this.currentCustomer = currentCustomer;
-    }
-
     @Override
 	public void refresh() {
         if (currentCustomer.getId() != null) {
@@ -76,7 +78,7 @@ public class CustomerInfoView extends JPanel implements View {
 	}
 
     @Override
-    public void refresh (Object changedObject) {
+    public void refresh (PropertyChangingType changingType, Object changedObject) {
         this.currentCustomer = (Customer)changedObject;
     }
 
@@ -92,4 +94,14 @@ public class CustomerInfoView extends JPanel implements View {
         customerAddressTextField.setText("");
     }
 
+    @Override
+    public void setModel (DTO model) {
+        this.customerInfoDTO = (CustomerInfoDTO) model;
+        this.currentCustomer = customerInfoDTO.getCurrentCustomer();
+    }
+
+    @Override
+    public DTO getModel () {
+        return customerInfoDTO;
+    }
 }

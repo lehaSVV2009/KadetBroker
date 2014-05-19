@@ -19,6 +19,7 @@ public class CustomerTableMouseAction extends MouseAdapter {
     @Override
     public void mouseClicked (MouseEvent e) {
         if (e.getClickCount() == 1) {
+
             JTable customersTable = (JTable)e.getSource();
             int selectedRowIndex = customersTable.getSelectedRow();
             String id = (String)customersTable.getModel().getValueAt(selectedRowIndex, 0);
@@ -31,6 +32,7 @@ public class CustomerTableMouseAction extends MouseAdapter {
             currentCustomer.setAddress(address);
 
             ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, currentCustomer);
+
         }
     }
 }

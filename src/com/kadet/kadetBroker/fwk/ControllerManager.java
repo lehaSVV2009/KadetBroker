@@ -1,7 +1,10 @@
 package com.kadet.kadetBroker.fwk;
 
 import com.kadet.kadetBroker.controller.Controller;
+import com.kadet.kadetBroker.view.AllCustomersView;
+import com.kadet.kadetBroker.view.View;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +45,18 @@ public class ControllerManager {
         }
         return controllersWithSuchClassName;
     }
+
+    public List<Controller> getControllersByView (View view) {
+        String controllerClassName = PropertiesManager.getInstance().getControllerClassNameByViewClassName(view.getClass().getName());
+        List<Controller> controllers = ControllerManager.getInstance().getControllersByClassName(controllerClassName);
+
+        for (Controller controller : controllers) {
+            if (!view.getModel().equals(controller.getModel())) {
+                controllers.remove(controller);
+            }
+        }
+        return controllers;
+    }
+
     
 }

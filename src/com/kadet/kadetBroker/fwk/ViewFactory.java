@@ -18,8 +18,8 @@ public class ViewFactory {
 
     private ViewFactory() {}
 
-    public static LoggerView createLoggerView () {
-        return new LoggerView();
+    public static LoggerPanel createLoggerView () {
+        return new LoggerPanel();
     }
 
 

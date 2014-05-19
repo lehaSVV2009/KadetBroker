@@ -1,6 +1,11 @@
 package com.kadet.kadetBroker.dialog;
 
+import com.kadet.kadetBroker.actions.AddCustomerButtonsActions;
+import com.kadet.kadetBroker.actions.CustomerTextFieldsActions;
+import com.kadet.kadetBroker.dto.AddCustomerDTO;
+import com.kadet.kadetBroker.dto.DTO;
 import com.kadet.kadetBroker.entity.Customer;
+import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.util.Strings;
 import com.kadet.kadetBroker.view.View;
 
@@ -14,6 +19,8 @@ import java.awt.*;
  * @author SarokaA
  */
 public class AddCustomerDialog extends JDialog implements View {
+
+    private AddCustomerDTO addCustomerDTO;
 
     private Customer customer;
 
@@ -29,10 +36,6 @@ public class AddCustomerDialog extends JDialog implements View {
         init();
     }
 
-    public void setCustomer (Customer customer) {
-        this.customer = customer;
-    }
-
     public void init () {
 
         setModal(true);
@@ -41,6 +44,8 @@ public class AddCustomerDialog extends JDialog implements View {
         setMinimumSize(new Dimension(300, 300));
         setPreferredSize(new Dimension(300, 300));
         setLocationRelativeTo(null);
+
+        initActions();
 
         setLayout(new BorderLayout());
 
@@ -59,14 +64,37 @@ public class AddCustomerDialog extends JDialog implements View {
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
+    private void initActions () {
+
+        addButton.addActionListener(new AddCustomerButtonsActions());
+        resetButton.addActionListener(new AddCustomerButtonsActions());
+
+        customerNameTextField.getDocument().addDocumentListener(new CustomerTextFieldsActions());
+
+        customerAddressTextField.getDocument().addDocumentListener(new CustomerTextFieldsActions());
+
+    }
+
     @Override
     public void refresh () {
 
     }
 
     @Override
-    public void refresh (Object changedObject) {
+    public void refresh (PropertyChangingType changingType, Object changedObject) {
 
     }
 
+    @Override
+    public void setModel (DTO model) {
+        this.addCustomerDTO = (AddCustomerDTO) model;
+        this.customer = addCustomerDTO.getCustomer();
+        customerNameTextField.getDocument().putProperty(Strings.NAME_TEXT_FIELD, customer);
+        customerAddressTextField.getDocument().putProperty(Strings.ADDRESS_TEXT_FIELD, customer);
+    }
+
+    @Override
+    public DTO getModel () {
+        return addCustomerDTO;
+    }
 }

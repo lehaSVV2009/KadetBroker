@@ -1,9 +1,13 @@
 package com.kadet.kadetBroker.view;
 
+import com.kadet.kadetBroker.dto.DTO;
+import com.kadet.kadetBroker.dto.StocksDTO;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.entity.Share;
 import com.kadet.kadetBroker.exception.KadetException;
+import com.kadet.kadetBroker.fwk.DTOContainer;
 import com.kadet.kadetBroker.fwk.Dispatcher;
+import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.util.Strings;
 
 import javax.swing.*;
@@ -11,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StocksView extends JPanel implements View {
+
+    private StocksDTO stocksDTO;
 
     private Customer currentCustomer;
 
@@ -105,18 +111,6 @@ public class StocksView extends JPanel implements View {
 		
 	}
 
-    public void setFreeShares (List<Share> freeShares) {
-        this.freeShares = freeShares;
-    }
-
-    public void setYourShares (List<Share> yourShares) {
-        this.yourShares = yourShares;
-    }
-
-    public void setCurrentCustomer (Customer currentCustomer) {
-        this.currentCustomer = currentCustomer;
-    }
-
     @Override
 	public void refresh() {
 
@@ -138,8 +132,21 @@ public class StocksView extends JPanel implements View {
     }
 
     @Override
-    public void refresh (Object changedObject) {
+    public void refresh (PropertyChangingType changingType, Object changedObject) {
         this.currentCustomer = (Customer)changedObject;
+    }
+
+    @Override
+    public void setModel (DTO model) {
+        this.stocksDTO = (StocksDTO) model;
+        this.currentCustomer = stocksDTO.getCurrentCustomer();
+        this.yourShares = stocksDTO.getYourShares();
+        this.freeShares = stocksDTO.getFreeShares();
+    }
+
+    @Override
+    public DTO getModel () {
+        return stocksDTO;
     }
 
 }

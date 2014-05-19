@@ -1,17 +1,21 @@
 package com.kadet.kadetBroker.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
 
-import com.kadet.kadetBroker.actions.AllCustomersButtonAction;
+import com.kadet.kadetBroker.actions.AllCustomersButtonsAction;
 import com.kadet.kadetBroker.actions.CustomerTableMouseAction;
+import com.kadet.kadetBroker.dto.AllCustomersDTO;
+import com.kadet.kadetBroker.dto.DTO;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.fwk.Dispatcher;
+import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.util.Strings;
 
 public class AllCustomersView extends JPanel implements View {
+
+    private AllCustomersDTO allCustomersDTO;
 
     private Customer currentCustomer;
     private List<Customer> customers;
@@ -33,11 +37,11 @@ public class AllCustomersView extends JPanel implements View {
 
         tableScrollPane = new JScrollPane(customersTable);
 
-        AllCustomersButtonAction allCustomersButtonAction
-                = new AllCustomersButtonAction();
-        addCustomerButton.addActionListener(allCustomersButtonAction);
-        removeCustomerButton.addActionListener(allCustomersButtonAction);
-        updateCustomerButton.addActionListener(allCustomersButtonAction);
+        AllCustomersButtonsAction allCustomersButtonsAction
+                = new AllCustomersButtonsAction();
+        addCustomerButton.addActionListener(allCustomersButtonsAction);
+        removeCustomerButton.addActionListener(allCustomersButtonsAction);
+        updateCustomerButton.addActionListener(allCustomersButtonsAction);
 
         GroupLayout layout = new GroupLayout(this);
         layout.setAutoCreateGaps(true);
@@ -67,23 +71,6 @@ public class AllCustomersView extends JPanel implements View {
 
     }
 
-
-    public void setCustomers (List<Customer> customers) {
-        this.customers = customers;
-    }
-
-    public void setCurrentCustomer (Customer currentCustomer) {
-        this.currentCustomer = currentCustomer;
-    }
-
-    public Customer getCurrentCustomer () {
-        return currentCustomer;
-    }
-
-    public List<Customer> getCustomers () {
-        return customers;
-    }
-
     @Override
     public void refresh () {
 
@@ -97,8 +84,33 @@ public class AllCustomersView extends JPanel implements View {
     }
 
     @Override
-    public void refresh (Object changedObject) {
-        this.currentCustomer = (Customer)changedObject;
+    public void refresh (PropertyChangingType changingType, Object changedObject) {
+        switch (changingType) {
+            case REFRESH_CUSTOMER_LIST: {
+
+                refresh();
+                break;
+            }
+            case CURRENT_CUSTOMER_CHANGING : {
+
+                Customer newCurrentCustomer = (Customer)changedObject;
+                currentCustomer.setId(newCurrentCustomer.getId());
+                currentCustomer.setName(newCurrentCustomer.getName());
+                currentCustomer.setAddress(newCurrentCustomer.getAddress());
+                break;
+            }
+        }
     }
 
+    @Override
+    public void setModel (DTO model) {
+        this.allCustomersDTO = (AllCustomersDTO) model;
+        this.currentCustomer = allCustomersDTO.getCurrentCustomer();
+        this.customers = allCustomersDTO.getCustomers();
+    }
+
+    @Override
+    public DTO getModel () {
+        return allCustomersDTO;
+    }
 }
