@@ -2,7 +2,7 @@ package com.kadet.kadetBroker.dialog;
 
 import com.kadet.kadetBroker.actions.AddCustomerButtonsActions;
 import com.kadet.kadetBroker.actions.CustomerTextFieldsActions;
-import com.kadet.kadetBroker.dto.AddCustomerDTO;
+import com.kadet.kadetBroker.dto.CustomerDTO;
 import com.kadet.kadetBroker.dto.DTO;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.fwk.PropertyChangingType;
@@ -20,7 +20,7 @@ import java.awt.*;
  */
 public class AddCustomerDialog extends JDialog implements View {
 
-    private AddCustomerDTO addCustomerDTO;
+    private CustomerDTO customerDTO;
 
     private Customer customer;
 
@@ -87,14 +87,14 @@ public class AddCustomerDialog extends JDialog implements View {
 
     @Override
     public void setModel (DTO model) {
-        this.addCustomerDTO = (AddCustomerDTO) model;
-        this.customer = addCustomerDTO.getCustomer();
+        this.customerDTO = (CustomerDTO) model;
+        this.customer = customerDTO.getCustomer();
         customerNameTextField.getDocument().putProperty(Strings.NAME_TEXT_FIELD, customer);
         customerAddressTextField.getDocument().putProperty(Strings.ADDRESS_TEXT_FIELD, customer);
     }
 
     @Override
     public DTO getModel () {
-        return addCustomerDTO;
+        return customerDTO;
     }
 }

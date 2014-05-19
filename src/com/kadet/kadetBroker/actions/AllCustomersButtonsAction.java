@@ -31,7 +31,7 @@ public class AllCustomersButtonsAction implements ActionListener {
             showCreateCustomerDialog();
         } else if (Strings.REMOVE_CUSTOMER_BUTTON.equals(actionCommand)) {
             System.out.println(actionCommand);
-
+            removeCustomer();
         } else if (Strings.UPDATE_CUSTOMER_BUTTON.equals(actionCommand)) {
             System.out.println(actionCommand);
             showUpdateCustomerDialog();
@@ -59,26 +59,37 @@ public class AllCustomersButtonsAction implements ActionListener {
 
     private void showUpdateCustomerDialog () {
 
-        AllCustomersView view = (AllCustomersView)ViewManager.getInstance().getActiveView();
-        if(((AllCustomersDTO)view.getModel()).getCurrentCustomer().getId() == null) {
-            LoggerPanel loggerPanel = ViewManager.getInstance().getActiveLoggerPanel();
-            loggerPanel.addViewText(view, Strings.CHOOSE_CUSTOMER);
-            loggerPanel.refresh();
-        } else {
-            try {
-                List<Controller> controllers = ControllerManager.getInstance().getControllersByView(ViewManager.getInstance().getActiveView());
-                for (Controller controller : controllers) {
-                    Method showCreateCustomerDialog = controller.getClass().getMethod("showUpdateCustomerDialog");
-                    showCreateCustomerDialog.setAccessible(true);
-                    showCreateCustomerDialog.invoke(controller);
-                }
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+        try {
+            List<Controller> controllers = ControllerManager.getInstance().getControllersByView(ViewManager.getInstance().getActiveView());
+            for (Controller controller : controllers) {
+                Method showCreateCustomerDialog = controller.getClass().getMethod("showUpdateCustomerDialog");
+                showCreateCustomerDialog.setAccessible(true);
+                showCreateCustomerDialog.invoke(controller);
             }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeCustomer () {
+
+        try {
+            List<Controller> controllers = ControllerManager.getInstance().getControllersByView(ViewManager.getInstance().getActiveView());
+            for (Controller controller : controllers) {
+                Method showCreateCustomerDialog = controller.getClass().getMethod("removeCustomer");
+                showCreateCustomerDialog.setAccessible(true);
+                showCreateCustomerDialog.invoke(controller);
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
 
     }

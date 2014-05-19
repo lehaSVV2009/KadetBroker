@@ -1,6 +1,6 @@
 package com.kadet.kadetBroker.controller;
 
-import com.kadet.kadetBroker.dto.AddCustomerDTO;
+import com.kadet.kadetBroker.dto.CustomerDTO;
 import com.kadet.kadetBroker.dto.DTO;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.fwk.Dispatcher;
@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class AddCustomerController implements Controller {
 
-    private AddCustomerDTO addCustomerDTO;
+    private CustomerDTO customerDTO;
 
     private Customer customer;
 
@@ -25,21 +25,21 @@ public class AddCustomerController implements Controller {
 
     @Override
     public void setModel (DTO model) {
-        this.addCustomerDTO = (AddCustomerDTO)model;
-        this.customer = addCustomerDTO.getCustomer();
+        this.customerDTO = (CustomerDTO)model;
+        this.customer = customerDTO.getCustomer();
     }
 
     public void addCustomer () {
 
-        // TODO: send to server addCustomerDTO
-        addCustomerDTO.getCustomer().setId(String.valueOf(new Random().nextInt(10000)));
-        Dispatcher.getInstance().addCustomer(addCustomerDTO);
+        // TODO: send to server customerDTO
+        customerDTO.getCustomer().setId(String.valueOf(new Random().nextInt(10000)));
+        Dispatcher.getInstance().addCustomer(customerDTO);
 
     }
 
 
     @Override
     public DTO getModel () {
-        return addCustomerDTO;
+        return customerDTO;
     }
 }

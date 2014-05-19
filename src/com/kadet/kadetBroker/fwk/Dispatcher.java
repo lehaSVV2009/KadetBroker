@@ -1,6 +1,6 @@
 package com.kadet.kadetBroker.fwk;
 
-import com.kadet.kadetBroker.dto.AddCustomerDTO;
+import com.kadet.kadetBroker.dto.CustomerDTO;
 import com.kadet.kadetBroker.dto.UpdateCustomerDTO;
 import com.kadet.kadetBroker.entity.Customer;
 import com.kadet.kadetBroker.entity.Share;
@@ -62,8 +62,8 @@ public class Dispatcher {
 
 
 
-    public void addCustomer (AddCustomerDTO addCustomerDTO) {
-        Customer customer = addCustomerDTO.getCustomer();
+    public void addCustomer (CustomerDTO customerDTO) {
+        Customer customer = customerDTO.getCustomer();
         dataModel.addCustomer(customer);
         ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.REFRESH_CUSTOMER_LIST, customer);
     }
@@ -71,10 +71,16 @@ public class Dispatcher {
     public void updateCustomer (UpdateCustomerDTO updateCustomerDTO) {
         Customer customer = updateCustomerDTO.getNewCustomer();
         dataModel.updateCustomer(customer);
-        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.REFRESH_CUSTOMER_LIST, customer);
-        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, customer);
+        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.REFRESH_CUSTOMER_LIST, null);
+        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, getDefaultCustomer());
     }
 
+    public void removeCustomer (CustomerDTO customerDTO) {
+        Customer customer = customerDTO.getCustomer();
+        dataModel.removeCustomer(customer);
+        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.REFRESH_CUSTOMER_LIST, null);
+        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, getDefaultCustomer());
+    }
 
 
 }

@@ -41,11 +41,11 @@ public class DataModel {
     }
 
     public void removeCustomer (Customer customer) {
-        for (Portfolio portfolio : portfolios) {
-            Customer customerFromList = portfolio.getCustomer();
+        for (int portfolioIndex = 0; portfolioIndex < portfolios.size(); ++portfolioIndex) {
+            Customer customerFromList = portfolios.get(portfolioIndex).getCustomer();
             if (customerFromList.getId().equals(customer.getId())) {
-                portfolio = null;
-                portfolios.remove(portfolio);
+                portfolios.remove(portfolioIndex);
+                --portfolioIndex;
             }
         }
 

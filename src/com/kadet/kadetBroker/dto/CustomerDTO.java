@@ -8,11 +8,11 @@ import com.kadet.kadetBroker.entity.Customer;
  *
  * @author SarokaA
  */
-public class AddCustomerDTO implements DTO {
+public class CustomerDTO implements DTO {
 
     private Customer customer;
 
-    public AddCustomerDTO (Customer customer) {
+    public CustomerDTO (Customer customer) {
         this.customer = customer;
     }
 

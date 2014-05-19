@@ -2,7 +2,6 @@ package com.kadet.kadetBroker.actions;
 
 import com.kadet.kadetBroker.controller.Controller;
 import com.kadet.kadetBroker.dialog.AddCustomerDialog;
-import com.kadet.kadetBroker.dto.AddCustomerDTO;
 import com.kadet.kadetBroker.fwk.ControllerManager;
 import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.util.Strings;

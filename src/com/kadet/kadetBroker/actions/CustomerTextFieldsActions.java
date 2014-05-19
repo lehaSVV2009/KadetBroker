@@ -1,13 +1,7 @@
 package com.kadet.kadetBroker.actions;
 
-import com.kadet.kadetBroker.dialog.AddCustomerDialog;
-import com.kadet.kadetBroker.dto.AddCustomerDTO;
-import com.kadet.kadetBroker.dto.AllCustomersDTO;
 import com.kadet.kadetBroker.entity.Customer;
-import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.util.Strings;
-import com.kadet.kadetBroker.view.AllCustomersView;
-import com.kadet.kadetBroker.view.View;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
