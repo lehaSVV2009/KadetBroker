@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun May 25 16:35:10 FET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0146-3397-9321-00000e287e20 
+on database directory C:\Users\SarokaA\StockMarket with class loader sun.misc.Launcher$AppClassLoader@5603f377 
+Loaded from file:/D:/kadet/Activity/courses/JavaLevel2/labs/Lab10.1MultithreadedServer/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_45-b18
+user.dir=D:\kadet\Activity\courses\JavaLevel2\labs\Lab10.1MultithreadedServer\Lab10.1Server
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
