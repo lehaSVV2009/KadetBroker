@@ -14,10 +14,7 @@ public class AddCustomerCommand extends AbstractCommand {
 
 
     public AddCustomerCommand() throws RemoteException {
-		super();
 	}
-
-	private static final long serialVersionUID = 10L;
 
     @Override
     public String getDaoName () {

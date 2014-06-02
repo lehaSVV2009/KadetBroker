@@ -3,6 +3,7 @@ package com.kadet.kadetBroker.fwk;
 import com.kadet.kadetBroker.to.CustomerTO;
 import com.kadet.kadetBroker.to.Entity;
 import com.kadet.kadetBroker.to.TO;
+import com.kadet.kadetBroker.util.Strings;
 import com.kadet.kadetBroker.view.CurrentCustomerContainer;
 import com.kadet.kadetBroker.view.LoggerPanel;
 import com.kadet.kadetBroker.view.View;
@@ -11,6 +12,8 @@ import com.kadet.kadetBroker.viewModel.CustomerInfoViewModel;
 import com.kadet.kadetBroker.viewModel.StocksViewModel;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Date: 16.05.14
@@ -19,6 +22,8 @@ import java.util.*;
  * @author Кадет
  */
 public class ViewManager {
+
+    private static Logger logger = Logger.getLogger(ViewManager.class.getName());
 
     private final static ViewManager instance = new ViewManager();
 
@@ -32,21 +37,14 @@ public class ViewManager {
 
     private Map<Integer, View> viewsMap = new HashMap<Integer, View>();
 
-    private Map<Integer, View> activeViewsMap = new HashMap<Integer, View>();
-
-
-
-    //TODO: remove later
     private View activeView;
-
-    //TODO: once again
     private LoggerPanel activeLoggerPanel;
 
-    private Map<PropertyChangingType, List<View>> propertyChangesActions = new HashMap<PropertyChangingType, List<View>>();
 
     public View newView (String viewClassName) {
         View view = ViewFactory.createView(viewClassName);
         viewsMap.put(viewId ++, view);
+        logger.log(Level.INFO, Strings.NEW_VIEW_WAS_CREATED + ":" + view.getClass().getName());
         return view;
     }
 
@@ -56,39 +54,12 @@ public class ViewManager {
             for (Map.Entry<Integer, View> viewIdView : viewIdViewSet) {
                 if (view == viewIdView.getValue()) {
                     viewsMap.remove(viewIdView.getKey());
-                }
-            }
-        }
-    }
-     /*
-    public void addActiveView (View view) throws KadetException {
-        if (!viewsMap.containsValue(view)) {
-            throw new KadetException(Strings.THERE_IS_NO_SUCH_VIEW_EXCEPTION);
-        } else {
-            Set<Map.Entry<Integer, View>> viewIdViewSet = viewsMap.entrySet();
-            for (Map.Entry<Integer, View> viewIdView : viewIdViewSet) {
-                if (view == viewIdView.getValue()) {
-                    activeViewsMap.put(viewIdView.getKey(), view);
-                    return;
+                    logger.log(Level.INFO, Strings.VIEW_WAS_REMOVED + ":" + view.getClass().getName());
                 }
             }
         }
     }
 
-    public void removeActiveView (View view) throws KadetException {
-        if (!viewsMap.containsValue(view)) {
-            throw new KadetException(Strings.THERE_IS_NO_SUCH_VIEW_EXCEPTION);
-        } else {
-            Set<Map.Entry<Integer, View>> viewIdViewSet = viewsMap.entrySet();
-            for (Map.Entry<Integer, View> viewIdView : viewIdViewSet) {
-                if (view == viewIdView.getValue()) {
-                    activeViewsMap.remove(viewIdView.getKey());
-                    return;
-                }
-            }
-        }
-    }
-            */
     public void setActiveView (View activeView) {
         this.activeView = activeView;
     }
@@ -105,22 +76,6 @@ public class ViewManager {
         return activeLoggerPanel;
     }
 
-    public List<View> getActiveViews () {
-        return (List<View>) activeViewsMap.values();
-    }
-
-    public void addPropertyChangeListener (PropertyChangingType propertyChangingType,  View view) {
-        if(!propertyChangesActions.containsKey(propertyChangingType)) {
-            List<View> views = new ArrayList<View>();
-            views.add(view);
-            propertyChangesActions.put(propertyChangingType, views);
-        } else {
-            List<View> views = propertyChangesActions.get(propertyChangingType);
-            views.add(view);
-        }
-    }
-
-
 
     private Map<TO, List<View>> subscribers = new HashMap<TO, List<View>>();
     private List<View> subscribersOnNobodyWasNotified = new ArrayList<View>();
@@ -128,7 +83,7 @@ public class ViewManager {
     /**
      *  Подписываются на изменения модели, на которые не произошло ни одного изменения вьюх
      */
-    public void subScribeOnNobodyElse (View view) {
+    public void subscribeOnNobodyElse (View view) {
         subscribersOnNobodyWasNotified.add(view);
     }
 
@@ -196,10 +151,15 @@ public class ViewManager {
         }
     }
 
+    /**
+     *  If TO changes it will notify all subscribers on this object to refresh
+     *  If there is no any subscriber, it will notify subscribers from the list "subscribersOnNobodyWasNotified"
+     *
+     * @param to
+     */
     public void notifyByObjectChanged (TO to) {
 
         boolean anythingWasNotified = false;
-        // TODO: избавиться от ConcurrentModificatonException
         TO [] subscribersKeys = new TO[] {};
         subscribers.keySet().toArray(subscribersKeys);
         for (int keyIndex = 0; keyIndex < subscribersKeys.length; ++keyIndex) {
@@ -225,7 +185,9 @@ public class ViewManager {
 
     }
 
-
+    /**
+     *  Notify all views that contains current customer info by current customer
+     */
     public void notifyByCurrentCustomer (CustomerTO customerTO) {
         for (View view : viewsMap.values()) {
             if (view instanceof CurrentCustomerContainer) {
@@ -234,14 +196,8 @@ public class ViewManager {
         }
     }
 
-
-
-    public void refreshAllViews () {
-        for (View view : viewsMap.values()) {
-            view.refresh();
-        }
+    public void setMessageToLogger(String message) {
+        getActiveLoggerPanel().setText(message);
     }
-
-
 
 }

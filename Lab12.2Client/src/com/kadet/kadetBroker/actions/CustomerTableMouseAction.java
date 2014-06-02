@@ -1,6 +1,5 @@
 package com.kadet.kadetBroker.actions;
 
-import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.to.CustomerTO;
 

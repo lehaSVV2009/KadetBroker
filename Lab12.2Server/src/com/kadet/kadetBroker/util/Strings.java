@@ -24,6 +24,11 @@ public final class Strings {
     /**
      * DB
      */
+    public static final String JDBC_DRIVER = "jdbc_driver";
+    public static final String LOGIN = "login";
+    public static final String PASSWORD = "password";
+    public static final String URL = "url";
+
     public static final String DB_NAME = "PUBLIC";
     public static final String CUSTOMERS_TABLE = "CUSTOMER";
     public static final String STOCKS_TABLE = "STOCK";
@@ -79,6 +84,12 @@ public final class Strings {
 
     public static final String CAN_NOT_EXECUTE_SQL = "Can not execute SQL!";
 
+    public static final String CAN_NOT_FIND_REQUIRED_JDBC_DRIVER = "Can not find required jdbc driver!";
+
+    /**
+     * Sql Exceptions
+     */
+    public static final String ID_IS_ALREADY_USED = "Id is already used!";
 
 
     public static final String BAD_TO_OBJECT_FOR_BUILDING_SQL_QUERY = "Bad Transfer Object for building sql query";

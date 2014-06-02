@@ -1,10 +1,13 @@
 package com.kadet.kadetBroker.fwk;
 
 import com.kadet.kadetBroker.controller.Controller;
+import com.kadet.kadetBroker.util.Strings;
 import com.kadet.kadetBroker.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Date: 16.05.14
@@ -13,6 +16,8 @@ import java.util.List;
  * @author Кадет
  */
 public class ControllerManager {
+
+    private static Logger logger = Logger.getLogger(ControllerManager.class.getName());
 
     private final static ControllerManager instance = new ControllerManager();
 
@@ -27,11 +32,13 @@ public class ControllerManager {
     public Controller newController (String controllerClassName) {
         Controller controller = ControllerFactory.createController(controllerClassName);
         controllers.add(controller);
+        logger.log(Level.INFO, Strings.NEW_CONTROLLER_WAS_CREATED + ":" + controller.getClass().getName());
         return controller;
     }
 
     public void removeController (Controller controller) {
         controllers.remove(controller);
+        logger.log(Level.INFO, Strings.CONTROLLER_WAS_REMOVED + ":" + controller.getClass().getName());
     }
 
     public List<Controller> getControllersByClassName (String className) {
@@ -55,6 +62,7 @@ public class ControllerManager {
                 --controllerIndex;
             }
         }
+        ViewManager.getInstance().setMessageToLogger("");
         return controllers;
     }
 

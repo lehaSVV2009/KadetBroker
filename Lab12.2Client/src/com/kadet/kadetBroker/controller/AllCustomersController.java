@@ -1,6 +1,8 @@
 package com.kadet.kadetBroker.controller;
 
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.kadet.kadetBroker.command.Command;
 import com.kadet.kadetBroker.dialog.AddCustomerDialog;
@@ -11,7 +13,6 @@ import com.kadet.kadetBroker.to.CustomerTO;
 import com.kadet.kadetBroker.rmi.RMIUtils;
 import com.kadet.kadetBroker.to.CustomersListTO;
 import com.kadet.kadetBroker.util.Strings;
-import com.kadet.kadetBroker.view.LoggerPanel;
 import com.kadet.kadetBroker.viewModel.AddCustomerViewModel;
 import com.kadet.kadetBroker.viewModel.AllCustomersViewModel;
 import com.kadet.kadetBroker.viewModel.UpdateCustomerViewModel;
@@ -25,6 +26,8 @@ import com.kadet.kadetBroker.viewModel.ViewModel;
  */
 public class AllCustomersController implements Controller {
 
+    private static Logger logger = Logger.getLogger(AllCustomersController.class.getName());
+
     private AllCustomersViewModel viewModel;
 
     public AllCustomersController () {
@@ -32,7 +35,6 @@ public class AllCustomersController implements Controller {
 
     public void showCreateCustomerDialog () {
 
-        System.out.println("Show Create Customer Dialog");
         AddCustomerViewModel addCustomerViewModel = Dispatcher.getInstance().getDefaultAddCustomerViewModel();
         AddCustomerDialog addCustomerDialog = (AddCustomerDialog) DialogFactory.createDialog(AddCustomerDialog.class.getName());
         addCustomerDialog.setViewModel(addCustomerViewModel);
@@ -48,10 +50,12 @@ public class AllCustomersController implements Controller {
     public void showUpdateCustomerDialog () {
 
         CustomerTO currentCustomer = viewModel.getCurrentCustomerTO();
-        if (currentCustomer.getId() == null || "".equals(currentCustomer.getId())) {
+
+        if (!validateUpdatedCustomer(currentCustomer)) {
+
             log(Strings.CHOOSE_CUSTOMER);
+
         } else {
-            System.out.println("Show Update Customer Dialog");
             CustomerTO newCustomer = Dispatcher.getInstance().getDefaultCustomerTO();
             CustomerTO oldCustomer = currentCustomer;
             UpdateCustomerViewModel updateCustomerViewModel = new UpdateCustomerViewModel();
@@ -72,28 +76,47 @@ public class AllCustomersController implements Controller {
     public void removeCustomer () {
 
         CustomerTO currentCustomer = viewModel.getCurrentCustomerTO();
-        if (currentCustomer.getId() == null || "".equals(currentCustomer.getId())) {
+
+        if (!validateRemovedCustomer(currentCustomer)) {
+
             log(Strings.CHOOSE_CUSTOMER);
-        } else {
-    		try {
-    			
-    			Command command = RegistryManager.getInstance().getCommand(RMIUtils.RMI_REMOVE_CUSTOMER);
-    	        command.setTO(currentCustomer);
-    			command.execute();
+            return;
+
+        }
+        try {
+
+            Command command = RegistryManager.getInstance().getCommand(RMIUtils.RMI_REMOVE_CUSTOMER);
+            command.setTO(currentCustomer);
+            command.execute();
+
+            if (command.getException() != null) {
+
+                ViewManager.getInstance().setMessageToLogger(command.getException().getMessage());
+
+            } else {
 
                 CustomerTO customerTO = (CustomerTO) command.getResult();
                 Dispatcher.getInstance().removeCustomerTO(customerTO);
-    			
-    		} catch (KadetException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		} catch (RemoteException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
 
+            }
+
+        } catch (KadetException e) {
+            ViewManager.getInstance().setMessageToLogger(e.getMessage());
+        } catch (RemoteException e) {
+            ViewManager.getInstance().setMessageToLogger(Strings.CAN_NOT_GET_DATA_FROM_SERVER);
         }
 
+    }
+
+    private boolean validateUpdatedCustomer (CustomerTO customerTO) {
+        return  customerTO.getId() != null
+                && customerTO.getName() != null
+                && customerTO.getAddress() != null
+                && (!"".equals(customerTO.getId().trim()));
+    }
+
+    private boolean validateRemovedCustomer (CustomerTO customerTO) {
+        return (customerTO.getId() != null) && (!"".equals(customerTO.getId()));
     }
 
     public void refreshCustomers () {
@@ -103,15 +126,21 @@ public class AllCustomersController implements Controller {
             Command command = RegistryManager.getInstance().getCommand(RMIUtils.RMI_GET_ALL_CUSTOMERS);
             command.execute();
 
-            CustomersListTO customersListTO = (CustomersListTO) command.getResult();
-            Dispatcher.getInstance().setCustomerTOs(customersListTO);
+            if (command.getException() != null) {
+
+                ViewManager.getInstance().setMessageToLogger(command.getException().getMessage());
+
+            } else {
+
+                CustomersListTO customersListTO = (CustomersListTO) command.getResult();
+                Dispatcher.getInstance().setCustomerTOs(customersListTO);
+
+            }
 
         } catch (KadetException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            ViewManager.getInstance().setMessageToLogger(e.getMessage());
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            ViewManager.getInstance().setMessageToLogger(Strings.CAN_NOT_GET_DATA_FROM_SERVER);
         }
 
     }
@@ -119,9 +148,8 @@ public class AllCustomersController implements Controller {
 
 
     private void log (String text) {
-        LoggerPanel loggerPanel = ViewManager.getInstance().getActiveLoggerPanel();
-        loggerPanel.addText(text);
-        loggerPanel.refresh();
+        logger.log(Level.SEVERE, text);
+        ViewManager.getInstance().setMessageToLogger(text);
     }
 
     @Override

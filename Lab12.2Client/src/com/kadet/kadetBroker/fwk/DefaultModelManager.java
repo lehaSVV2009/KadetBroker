@@ -50,16 +50,5 @@ public class DefaultModelManager {
         return shareTO;
     }
 
-    /*public List<Customer> createDefaultCustomers () {
-        return new ArrayList<Customer>();
-    }
-
-    public List<Share> createDefaultShares () {
-        return new ArrayList<Share>();
-    }
-
-    public Customer createDefaultCustomer () {
-        return new Customer();
-    } */
 
 }

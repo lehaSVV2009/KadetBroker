@@ -1,15 +1,5 @@
 package com.kadet.kadetBroker.test;
 
-import java.rmi.RemoteException;
-
-import com.kadet.kadetBroker.command.*;
-import com.kadet.kadetBroker.exception.KadetException;
-import com.kadet.kadetBroker.fwk.CommandManager;
-import com.kadet.kadetBroker.fwk.CommandSender;
-import com.kadet.kadetBroker.fwk.PropertiesManager;
-import com.kadet.kadetBroker.to.CustomerTO;
-import com.kadet.kadetBroker.util.Strings;
-
 /**
  * Date: 22.05.14
  * Time: 8:40

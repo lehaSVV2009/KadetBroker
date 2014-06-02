@@ -42,7 +42,7 @@ public class TransactionContainer {
         }
         TransactionManager newTransactionManager = TransactionFactory.createTransaction(ClientTransactionManager.class.getName());
         transactions.put(key, newTransactionManager);
-        logger.log(Level.INFO, Strings.NEW_SESSION_WAS_CREATED, newTransactionManager);
+        logger.log(Level.INFO, Strings.NEW_TRANSACTION_WAS_CREATED, newTransactionManager);
         return newTransactionManager;
     }
 

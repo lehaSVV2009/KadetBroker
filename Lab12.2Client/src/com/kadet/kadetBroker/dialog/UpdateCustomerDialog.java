@@ -3,7 +3,6 @@ package com.kadet.kadetBroker.dialog;
 import com.kadet.kadetBroker.actions.CustomerTextFieldsActions;
 import com.kadet.kadetBroker.actions.UpdateCustomerButtonsActions;
 import com.kadet.kadetBroker.fwk.ControllerManager;
-import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.to.CustomerTO;
 import com.kadet.kadetBroker.util.Strings;

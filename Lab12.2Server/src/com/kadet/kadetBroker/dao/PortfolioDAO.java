@@ -36,7 +36,7 @@ public class PortfolioDAO implements DAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new KadetException(Strings.BAD_RESULT_SET);
+            throw new KadetException(Strings.BAD_RESULT_SET + ":" + e.getMessage());
         }
         portfolioTO.setShareTOs(shareTOs);
         return portfolioTO;

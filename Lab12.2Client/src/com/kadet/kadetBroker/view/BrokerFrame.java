@@ -10,10 +10,13 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BrokerFrame extends JFrame {
 
-	
+	private static Logger logger = Logger.getLogger(BrokerFrame.class.getName());
+
 	private LoggerPanel loggerPanel;
 
 	private JTabbedPane tabsPanel;
@@ -33,38 +36,22 @@ public class BrokerFrame extends JFrame {
             @Override
             public void stateChanged (ChangeEvent e) {
 
-                System.out.println("Change Tab!");
                 View view = (View)tabsPanel.getSelectedComponent();
                 ViewManager.getInstance().setActiveView(view);
                 view.refresh();
 
-                loggerPanel.refresh();
-                /*try {
+                logger.log(Level.INFO, Strings.TAB_WAS_CHANGED + ": " + tabsPanel.getSelectedIndex());
 
-                    View view = (View)tabsPanel.getSelectedComponent();
-                    ViewManager.getInstance().addActiveView(view);
-                    view.refresh();
-
-                    if (oldView != null) {
-                        ViewManager.getInstance().removeActiveView(oldView);
-                    }
-                    System.out.println("\nOld view: " + oldView + "\nNew View" + view);
-
-                    oldView = view;
-
-                } catch (KadetException e1) {
-                    e1.printStackTrace();
-                }*/
             }
         });
-		loggerPanel = ViewFactory.createLoggerView();
+
+        loggerPanel = ViewFactory.createLoggerView();
 
 
         this.addWindowFocusListener(new WindowFocusListener() {
 
             @Override
             public void windowGainedFocus (WindowEvent e) {
-                System.out.println("Another frame!");
                 ViewManager.getInstance().setActiveLoggerPanel(loggerPanel);
                 ViewManager.getInstance().setActiveView((View)tabsPanel.getSelectedComponent());
             }

@@ -1,7 +1,5 @@
 package com.kadet.kadetBroker.view;
 
-import com.kadet.kadetBroker.fwk.ModelChangeListener;
-import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.to.CustomerTO;
 import com.kadet.kadetBroker.util.Strings;
 import com.kadet.kadetBroker.viewModel.CustomerInfoViewModel;

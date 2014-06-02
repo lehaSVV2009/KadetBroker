@@ -113,4 +113,30 @@ public class ServerPropertiesManager {
         }
     }
 
+    /**
+     * @return for example "org.apache.derby.jdbc.ClientDriver"
+     */
+    public String getJDBCDriverClassName() {
+        return dbProperties.getProperty(Strings.JDBC_DRIVER);
+    }
+
+
+    /**
+     * @return for example jdbc:derby:C:\\Users\\SarokaA\\StockMarket
+     */
+    public String getURL () {
+        return dbProperties.getProperty(Strings.URL);
+    }
+
+
+    public String getLogin () {
+        return dbProperties.getProperty(Strings.LOGIN);
+    }
+
+
+    public String getPassword () {
+        return dbProperties.getProperty(Strings.PASSWORD);
+    }
+
+
 }

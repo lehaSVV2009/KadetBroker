@@ -1,5 +1,6 @@
 package com.kadet.kadetBroker.command;
 
+import com.kadet.kadetBroker.exception.KadetException;
 import com.kadet.kadetBroker.to.SystemTO;
 import com.kadet.kadetBroker.to.TO;
 
@@ -19,5 +20,6 @@ public interface Command extends Remote {
     public void setTO (TO to) throws RemoteException;
     public void setSystemTO (SystemTO systemTO) throws RemoteException;
     public void execute () throws RemoteException;
+    public KadetException getException () throws RemoteException;
 
 }

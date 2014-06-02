@@ -77,6 +77,18 @@ public final class Strings {
     public static final String CAN_NOT_WORK_WITH_SERVER = "Can not work with server!";
     public static final String THREAD_DOES_NOT_CAN_SLEEP = "Thread doesn't can sleep!";
 
+
+    public static final String PROPERTY_FILE_WAS_NOT_FOUND = "Property file was not found!";
+    public static final String READ_PROPERTY_FILE_ERROR = "Read property file error!";
+
+    public static final String UNABLE_TO_INSTANTIATE = "Unable to instantiate: ";
+    public static final String NOT_CORRECT_CLASS_NAME = "Not correct class name: ";
+
+
+    public static final String WRONG_NAME_OF_CONTROLLER_METHOD = "Wrong name of controller method: ";
+    public static final String CAN_NOT_INVOKE_CONTROLLER = "Can not invoke controller!";
+
+
     /**
      * commands.properties
      */
@@ -92,7 +104,7 @@ public final class Strings {
     /**
      * RMI
      */
-    public static final String RMI_LOOKUP_EXCEPTION = "RMI Lookup Error!";
+    public static final String CAN_NOT_GET_DATA_FROM_SERVER = "Can not get data from server!";
 
 
     /**
@@ -103,4 +115,19 @@ public final class Strings {
     public static final String UPDATE_CUSTOMER_WAS_PRESSED = "Update Customer Button was pressed!";
     public static final String REFRESH_CUSTOMERS_WAS_PRESSED = "Refresh Customers Button was pressed!";
 
+    public static final String TAB_WAS_CHANGED = "Tab was changed!";
+
+    public static final String NEW_CONTROLLER_WAS_CREATED = "New controller was created!";
+    public static final String CONTROLLER_WAS_REMOVED = "Controller was removed!";
+    public static final String NEW_VIEW_WAS_CREATED = "New view was created!";
+    public static final String VIEW_WAS_REMOVED = "View was removed!";
+
+    /**
+     *  Logger Error
+     */
+    public static final String INITIALIZE_EXCEPTION = "Exception in initialization";
+    public static final String REMOTE_EXCEPTION = "Exception with remote";
+
+    public static final String INCORRECT_NEW_CUSTOMER = "Incorrect New Customer!";
+    public static final String INCORRECT_UPDATING = "Incorrect updating!";
 }

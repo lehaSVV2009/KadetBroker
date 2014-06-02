@@ -16,11 +16,7 @@ import com.kadet.kadetBroker.to.TO;
 public class GetPortfolioCommand extends AbstractCommand {
 
 	public GetPortfolioCommand() throws RemoteException {
-		super();
-		// TODO Auto-generated constructor stub
 	}
-
-	private static final long serialVersionUID = 15L;
 
     @Override
     public String getDaoName () {

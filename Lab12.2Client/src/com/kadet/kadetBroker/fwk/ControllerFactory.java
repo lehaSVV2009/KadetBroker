@@ -1,6 +1,7 @@
 package com.kadet.kadetBroker.fwk;
 
 import com.kadet.kadetBroker.controller.Controller;
+import com.kadet.kadetBroker.util.Strings;
 
 /**
  * Date: 16.05.14
@@ -22,7 +23,7 @@ public class ControllerFactory {
         try {
             return (Controller) Class.forName(className).newInstance();
         } catch (Exception e) {
-            throw new IllegalArgumentException("Unable to instantiate" + className);
+            throw new IllegalArgumentException(Strings.UNABLE_TO_INSTANTIATE + className);
         }
     }
 

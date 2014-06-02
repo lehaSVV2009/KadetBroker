@@ -38,7 +38,8 @@ public class Dispatcher {
     public void setCustomerTOs (CustomersListTO customersListTO) {
         dataModel.setCustomerTOs(customersListTO.getCustomerTOsList());
         for (CustomerTO customerTO : customersListTO.getCustomerTOsList()) {
-            viewManager.notifyByObjectChanged(customerTO);
+            CustomerTO customerTOCopy = (CustomerTO) proxyManager.deepClone(customerTO);
+            viewManager.notifyByObjectChanged(customerTOCopy);
         }
     }
 
@@ -49,7 +50,9 @@ public class Dispatcher {
      */
     public void updateCustomerTO (CustomerTO customerTO) {
         dataModel.updateCustomerTO(customerTO);
-        viewManager.notifyByObjectChanged(customerTO);
+        CustomerTO customerTOCopy
+                = (CustomerTO) proxyManager.deepClone(customerTO);
+        viewManager.notifyByObjectChanged(customerTOCopy);
         viewManager.notifyByCurrentCustomer(getDefaultCustomerTO());
     }
 
@@ -61,7 +64,9 @@ public class Dispatcher {
      */
     public void removeCustomerTO (CustomerTO customerTO) {
         dataModel.removeCustomerTO(customerTO);
-        viewManager.notifyByObjectChanged(customerTO);
+        CustomerTO customerTOCopy
+                = (CustomerTO) proxyManager.deepClone(customerTO);
+        viewManager.notifyByObjectChanged(customerTOCopy);
         viewManager.notifyByCurrentCustomer(getDefaultCustomerTO());
     }
 
@@ -74,7 +79,9 @@ public class Dispatcher {
      */
     public void addCustomerTO (CustomerTO customerTO) {
         dataModel.addCustomerTO(customerTO);
-        viewManager.notifyByObjectChanged(customerTO);
+        CustomerTO customerTOCopy
+                = (CustomerTO) proxyManager.deepClone(customerTO);
+        viewManager.notifyByObjectChanged(customerTOCopy);
         viewManager.notifyByCurrentCustomer(getDefaultCustomerTO());
     }
 
@@ -82,11 +89,10 @@ public class Dispatcher {
     public void setStockTOs (StocksListTO stocksListTO) {
         dataModel.setStockTOs(stocksListTO.getStockTOs());
         for (StockTO stockTO : stocksListTO.getStockTOs()) {
-            viewManager.notifyByObjectChanged(stockTO);
+            StockTO stockTOCopy = (StockTO) proxyManager.deepClone(stockTO);
+            viewManager.notifyByObjectChanged(stockTOCopy);
         }
     }
-
-
 
     public void addPortfolioTO (PortfolioTO portfolioTO) {
         dataModel.addPortfolioTO(portfolioTO);
@@ -124,7 +130,9 @@ public class Dispatcher {
     public AllCustomersViewModel getAllCustomersViewModel () {
         AllCustomersViewModel viewModel = new AllCustomersViewModel();
         for (CustomerTO customerTO : dataModel.getCustomerTOs()) {
-            viewModel.addCustomerTO(customerTO);
+            CustomerTO customerTOCopy
+                    = (CustomerTO) proxyManager.deepClone(customerTO);
+            viewModel.addCustomerTO(customerTOCopy);
         }
         viewModel.setCurrentCustomerTO(getDefaultCustomerTO());
         return viewModel;
@@ -147,7 +155,9 @@ public class Dispatcher {
     public StocksViewModel getStocksViewModel () {
         StocksViewModel stocksViewModel = new StocksViewModel();
         for (StockTO stockTO : dataModel.getStockTOs()) {
-            stocksViewModel.addStock(stockTO);
+            StockTO stockTOCopy
+                    = (StockTO) proxyManager.deepClone(stockTO);
+            stocksViewModel.addStock(stockTOCopy);
         }
         stocksViewModel.setPortfolioTO(getDefaultPortfolioTO());
         return stocksViewModel;
@@ -166,21 +176,26 @@ public class Dispatcher {
     }
 
     public PortfolioTO getPortfolioTO (CustomerTO customerTO) {
-        return dataModel.getPortfolioTO(customerTO);
+        PortfolioTO portfolioTO = dataModel.getPortfolioTO(customerTO);
+        PortfolioTO portfolioTOCopy
+                = (PortfolioTO) proxyManager.deepClone(portfolioTO);
+        return portfolioTOCopy;
     }
 
 
-
-
-
-
-
+    /**
+     *  For AddCustomerView
+     */
     public AddCustomerViewModel getDefaultAddCustomerViewModel () {
         AddCustomerViewModel viewModel = new AddCustomerViewModel();
         viewModel.setNewCustomerTO(getDefaultCustomerTO());
         return viewModel;
     }
 
+
+    /**
+     *  For UpdateCustomerView
+     */
     public UpdateCustomerViewModel getDefaultUpdateCustomerViewModel () {
         UpdateCustomerViewModel viewModel = new UpdateCustomerViewModel();
         viewModel.setNewCustomerTO(getDefaultCustomerTO());
@@ -188,65 +203,9 @@ public class Dispatcher {
         return viewModel;
     }
 
-    //TODO:
-    //public AllCustomersViewModel getAllCustomersViewModel () {
-    //  proxyManager...
-    //}
 
     public void setModel (DataModel dataModel) {
         this.dataModel = dataModel;
     }
-  /*
-    public List<Customer> getAllCustomers () {
-        return (List<Customer>)ProxyManager.getInstance().deepClone(dataModel.getAllCustomers());
-    }
-
-    public List<Share> getFreeShares () {
-        return (List<Share>)ProxyManager.getInstance().deepClone(dataModel.getFreeShares());
-    }
-
-    public List<Share> getCustomerShares (Customer customer) throws KadetException {
-        return dataModel.getCustomerShares(customer);
-    }
-
-    public List<Customer> getDefaultAllCustomers () {
-        return DefaultModelManager.getInstance().createDefaultCustomers();
-    }
-
-    public List<Share> getDefaultFreeShares () {
-        return DefaultModelManager.getInstance().createDefaultShares();
-    }
-
-    public List<Share> getDefaultYourShares () {
-        return DefaultModelManager.getInstance().createDefaultShares();
-    }
-
-    public Customer getDefaultCustomer () {
-        return DefaultModelManager.getInstance().createDefaultCustomer();
-    }
-
-
-
-
-    public void addCustomer (CustomerTO customerDTO) {
-        //Customer customer = customerDTO.getCustomer();
-        //dataModel.addCustomer(customer);
-        //ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.REFRESH_CUSTOMER_LIST, customer);
-    }
-
-    public void updateCustomer (UpdateCustomerDTO updateCustomerDTO) {
-        Customer customer = updateCustomerDTO.getNewCustomer();
-        dataModel.updateCustomer(customer);
-        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.REFRESH_CUSTOMER_LIST, null);
-        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, getDefaultCustomerTO());
-    }
-
-    public void removeCustomer (CustomerTO customerDTO) {
-        //Customer customer = customerDTO.getCustomer();
-        //dataModel.removeCustomer(customer);
-        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.REFRESH_CUSTOMER_LIST, null);
-        ViewManager.getInstance().notifyPropertyChange(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, getDefaultCustomerTO());
-    }
-              */
 
 }

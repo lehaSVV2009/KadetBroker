@@ -1,6 +1,8 @@
 package com.kadet.kadetBroker;
 
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.kadet.kadetBroker.command.Command;
 import com.kadet.kadetBroker.controller.AllCustomersController;
@@ -28,12 +30,10 @@ import com.kadet.kadetBroker.viewModel.StocksViewModel;
  * @author SarokaA
  */
 public class AppBundle {
-    // ? Current customer (where is it stored?)
-    // ? How does view subscribe on definite actions in viewManager
-    // ? How to add different models as parameters to the ViewFactory in method createView
 
+    private static Logger logger = Logger.getLogger(AppBundle.class.getName());
 
-    public AppBundle () throws RemoteException {
+    public AppBundle() {
 
         // init static viewModel Properties
 
@@ -78,32 +78,32 @@ public class AppBundle {
 
             // Init Real Model
             DataModel dataModel = new DataModel();
-//            fillDataModel(dataModel);
             dispatcher.setModel(dataModel);
 
 
             // Init AllCustomersView
             AllCustomersViewModel allCustomersViewModel;
             if (!dispatcher.hasAllCustomersInModel()) {
-                Command customersCommand = registryManager.getCommand(RMIUtils.RMI_GET_ALL_CUSTOMERS);
-                customersCommand.execute();
-                Dispatcher.getInstance().setCustomerTOs((CustomersListTO) customersCommand.getResult());
+                try {
+                    Command customersCommand = registryManager.getCommand(RMIUtils.RMI_GET_ALL_CUSTOMERS);
+                    customersCommand.execute();
+                    Dispatcher.getInstance().setCustomerTOs((CustomersListTO) customersCommand.getResult());
+                } catch (RemoteException e) {
+                    logger.log(Level.SEVERE, Strings.REMOTE_EXCEPTION);
+                } catch (KadetException e) {
+                    logger.log(Level.SEVERE, e.getMessage());
+                }
             }
             allCustomersViewModel = (dispatcher.hasAllCustomersInModel()) ? dispatcher.getAllCustomersViewModel() : dispatcher.getDefaultAllCustomersViewModel();
 
             AllCustomersView allCustomersView = (AllCustomersView) viewManager.newView(AllCustomersView.class.getName());
             allCustomersView.setViewModel(allCustomersViewModel);
             viewManager.subscribe(allCustomersView, allCustomersViewModel);
-            viewManager.subScribeOnNobodyElse(allCustomersView);
+            viewManager.subscribeOnNobodyElse(allCustomersView);
 
-//            allCustomersView.setCustomers(customers);
-//            allCustomersView.setCurrentCustomerTO(allCustomersViewCustomer);
-//                viewManager.addPropertyChangeListener(PropertyChangingType.CURRENT_CUSTOMER_CHANGING, allCustomersView);
-//                viewManager.addPropertyChangeListener(PropertyChangingType.REFRESH_CUSTOMER_LIST, allCustomersView);
             AllCustomersController allCustomersController = (AllCustomersController) controllerManager.newController(AllCustomersController.class.getName());
             allCustomersController.setViewModel(allCustomersViewModel);
-//            allCustomersController.setCustomers(customers);
-//            allCustomersController.setCurrentCustomerTO(allCustomersViewCustomer);
+
 
             // Init CustomerInfoView
             CustomerInfoViewModel customerInfoViewModel = new CustomerInfoViewModel();
@@ -112,18 +112,25 @@ public class AppBundle {
             customerInfoView.setViewModel(customerInfoViewModel);
             viewManager.subscribe(customerInfoView, customerInfoViewModel);
 
+            // Init StocksView
             StocksViewModel stocksViewModel;
             if (!dispatcher.hasAllStocksInModel()) {
-                Command stocksCommand = registryManager.getCommand(RMIUtils.RMI_GET_ALL_STOCKS);
-                stocksCommand.execute();
-                Dispatcher.getInstance().setStockTOs((StocksListTO)stocksCommand.getResult());
+                try {
+                    Command stocksCommand = registryManager.getCommand(RMIUtils.RMI_GET_ALL_STOCKS);
+                    stocksCommand.execute();
+                    Dispatcher.getInstance().setStockTOs((StocksListTO) stocksCommand.getResult());
+                } catch (RemoteException e) {
+                    logger.log(Level.SEVERE, Strings.REMOTE_EXCEPTION);
+                } catch (KadetException e) {
+                    logger.log(Level.SEVERE, e.getMessage());
+                }
             }
             stocksViewModel = (dispatcher.hasAllStocksInModel()) ? dispatcher.getStocksViewModel() : dispatcher.getDefaultStocksViewModel();
 
             StocksView stocksView = (StocksView) viewManager.newView(StocksView.class.getName());
             stocksView.setViewModel(stocksViewModel);
             viewManager.subscribe(stocksView, stocksViewModel);
-            viewManager.subScribeOnNobodyElse(stocksView);
+            viewManager.subscribeOnNobodyElse(stocksView);
 
             StocksController stocksController = (StocksController) controllerManager.newController(StocksController.class.getName());
             stocksController.setViewModel(stocksViewModel);
@@ -140,12 +147,12 @@ public class AppBundle {
             brokerFrame.setVisible(true);
 
         } catch (KadetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.log(Level.SEVERE, Strings.INITIALIZE_EXCEPTION);
         }
 
     }
 
-    private void fillDataModel (DataModel dataModel) {
+    private void fillDataModel(DataModel dataModel) {
 
         CustomerTO customer1 = new CustomerTO();
         customer1.setId("123");

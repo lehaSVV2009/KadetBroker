@@ -2,9 +2,7 @@ package com.kadet.kadetBroker.dialog;
 
 import com.kadet.kadetBroker.actions.AddCustomerButtonsActions;
 import com.kadet.kadetBroker.actions.CustomerTextFieldsActions;
-import com.kadet.kadetBroker.exception.KadetException;
 import com.kadet.kadetBroker.fwk.ControllerManager;
-import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.util.Strings;
 import com.kadet.kadetBroker.view.View;
@@ -26,10 +24,7 @@ public class AddCustomerDialog extends JDialog implements View {
 
 	private AddCustomerViewModel viewModel;
 	
-    /*private CustomerTO customerDTO;
 
-    private Customer customer;
-*/
     private JLabel customerIdLabel = new JLabel(Strings.CUSTOMER_ID_LABEL);
     private JTextField customerIdTextField = new JTextField();
     private JLabel customerNameLabel = new JLabel(Strings.CUSTOMER_NAME_LABEL);
@@ -75,8 +70,6 @@ public class AddCustomerDialog extends JDialog implements View {
     }
 
     private void initActions () {
-
-        //TODO: add Window Close Listener (kill View and Controller)
 
         addButton.addActionListener(new AddCustomerButtonsActions());
         resetButton.addActionListener(new AddCustomerButtonsActions());

@@ -13,11 +13,7 @@ import com.kadet.kadetBroker.sqlBuilder.SqlStatementType;
 public class UpdateCustomerCommand extends AbstractCommand {
 
 	public UpdateCustomerCommand() throws RemoteException {
-		super();
-		// TODO Auto-generated constructor stub
 	}
-
-	private static final long serialVersionUID = 13L;
 
     @Override
     public String getDaoName () {

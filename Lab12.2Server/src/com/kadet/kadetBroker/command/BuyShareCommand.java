@@ -13,11 +13,7 @@ import com.kadet.kadetBroker.sqlBuilder.SqlStatementType;
 public class BuyShareCommand extends AbstractCommand {
 
 	public BuyShareCommand() throws RemoteException {
-		super();
-		// TODO Auto-generated constructor stub
 	}
-
-	private static final long serialVersionUID = 16L;
 
 
     @Override

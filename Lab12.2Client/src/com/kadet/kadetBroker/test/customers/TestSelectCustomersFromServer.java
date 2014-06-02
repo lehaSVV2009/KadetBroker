@@ -1,16 +1,6 @@
 package com.kadet.kadetBroker.test.customers;
 
-import static org.junit.Assert.*;
-
-import java.rmi.RemoteException;
-
-import com.kadet.kadetBroker.command.Command;
 import com.kadet.kadetBroker.exception.KadetException;
-import com.kadet.kadetBroker.fwk.CommandManager;
-import com.kadet.kadetBroker.fwk.CommandSender;
-import com.kadet.kadetBroker.fwk.PropertiesManager;
-import com.kadet.kadetBroker.to.CustomersListTO;
-import com.kadet.kadetBroker.util.Strings;
 import org.junit.Test;
 
 public class TestSelectCustomersFromServer {

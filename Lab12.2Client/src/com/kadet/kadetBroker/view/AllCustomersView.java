@@ -3,8 +3,6 @@ package com.kadet.kadetBroker.view;
 import com.kadet.kadetBroker.actions.AllCustomersButtonsAction;
 import com.kadet.kadetBroker.actions.CustomerTableMouseAction;
 import com.kadet.kadetBroker.fwk.Dispatcher;
-import com.kadet.kadetBroker.fwk.ModelChangeListener;
-import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.fwk.ViewManager;
 import com.kadet.kadetBroker.to.CustomerTO;
 import com.kadet.kadetBroker.util.Strings;

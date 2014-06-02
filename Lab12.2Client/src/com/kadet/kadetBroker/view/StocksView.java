@@ -3,21 +3,17 @@ package com.kadet.kadetBroker.view;
 import com.kadet.kadetBroker.actions.ShareTextFieldsActions;
 import com.kadet.kadetBroker.command.Command;
 import com.kadet.kadetBroker.exception.KadetException;
-import com.kadet.kadetBroker.fwk.CommandManager;
 import com.kadet.kadetBroker.fwk.Dispatcher;
-import com.kadet.kadetBroker.fwk.ModelChangeListener;
-import com.kadet.kadetBroker.fwk.PropertyChangingType;
 import com.kadet.kadetBroker.fwk.RegistryManager;
+import com.kadet.kadetBroker.rmi.RMIUtils;
 import com.kadet.kadetBroker.to.CustomerTO;
 import com.kadet.kadetBroker.to.PortfolioTO;
 import com.kadet.kadetBroker.to.ShareTO;
-import com.kadet.kadetBroker.rmi.RMIUtils;
 import com.kadet.kadetBroker.util.Strings;
 import com.kadet.kadetBroker.viewModel.StocksViewModel;
 import com.kadet.kadetBroker.viewModel.ViewModel;
 
 import javax.swing.*;
-
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -152,7 +148,6 @@ public class StocksView extends JPanel implements View, CurrentCustomerContainer
 
         // Get Customer Shares
         Dispatcher dispatcher = Dispatcher.getInstance();
-        CommandManager commandManager = CommandManager.getInstance();
 
         if(dispatcher.hasPortfolioOfCustomer(customerTO)) {
             resetPortfolioTO(dispatcher.getPortfolioTO(customerTO));

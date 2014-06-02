@@ -30,12 +30,8 @@ public class LoggerPanel extends JPanel {
 		setPreferredSize(new Dimension(500, 100));
 	}
 	
-	public void addText (String text) {
-        loggerTextArea.append(text + "\n");
+	public void setText(String text) {
+        loggerTextArea.setText(text);
 	}
-
-    public void refresh () {
-
-    }
 
 }

@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Date: 19.05.14
@@ -19,6 +21,8 @@ import java.util.List;
  * @author SarokaA
  */
 public class UpdateCustomerButtonsActions implements ActionListener{
+
+    private static Logger logger = Logger.getLogger(UpdateCustomerButtonsActions.class.getName());
 
     @Override
     public void actionPerformed (ActionEvent e) {
@@ -31,22 +35,24 @@ public class UpdateCustomerButtonsActions implements ActionListener{
     }
 
     private void doOk () {
+
+        String methodName = "updateCustomer";
+
         UpdateCustomerDialog view = (UpdateCustomerDialog) ViewManager.getInstance().getActiveView();
-        // TODO: validate view
         try {
             List<Controller> controllers = ControllerManager.getInstance().getControllersByView(view);
             for (Controller controller : controllers) {
-                Method showCreateCustomerDialog = controller.getClass().getMethod("updateCustomer");
+                Method showCreateCustomerDialog = controller.getClass().getMethod(methodName);
                 showCreateCustomerDialog.setAccessible(true);
                 showCreateCustomerDialog.invoke(controller);
             }
             view.dispose();
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, Strings.WRONG_NAME_OF_CONTROLLER_METHOD + methodName);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, Strings.CAN_NOT_INVOKE_CONTROLLER);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, Strings.CAN_NOT_INVOKE_CONTROLLER);
         }
     }
 

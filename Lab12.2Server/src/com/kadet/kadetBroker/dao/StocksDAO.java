@@ -32,7 +32,7 @@ public class StocksDAO implements DAO {
                 stocksListTO.addStockTO(stockTO);
             }
         } catch (SQLException e) {
-            throw new KadetException(Strings.BAD_RESULT_SET);
+            throw new KadetException(Strings.BAD_RESULT_SET + ":" + e.getMessage());
         }
         return stocksListTO;
     }

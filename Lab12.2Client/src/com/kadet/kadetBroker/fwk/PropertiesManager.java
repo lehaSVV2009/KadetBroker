@@ -2,8 +2,10 @@ package com.kadet.kadetBroker.fwk;
 
 import com.kadet.kadetBroker.exception.KadetException;
 import com.kadet.kadetBroker.util.Paths;
+import com.kadet.kadetBroker.util.Strings;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
@@ -28,56 +30,50 @@ public class PropertiesManager {
     private Properties controllersProperties = new Properties();
     private Properties viewsProperties = new Properties();
     private Properties viewControllerMappingProperties = new Properties();
-    private Properties commandProperties = new Properties();
 
     public void initProperties () throws KadetException {
         initViewsProperties(Paths.VIEWS_PROPERTIES_PATH);
         initControllersProperties(Paths.CONTROLLERS_PROPERTIES_PATH);
         initViewControllerMappingProperties(Paths.VIEW_CONTROLLER_MAPPING_PROPERTIES_PATH);
-        initCommandMappingProperties(Paths.COMMANDS_PROPERTIES_PATH);
     }
 
     private void initControllersProperties (String controllersPropertiesPath) throws KadetException {
-        try {
-            controllersProperties.load(new FileInputStream(controllersPropertiesPath));
-        } catch (IOException e) {
-            throw new KadetException("Not correct path to controllers.properties");
-        }
+        initPropertyFile(controllersProperties, controllersPropertiesPath);
     }
 
     private void initViewsProperties (String viewsPropertiesPath) throws KadetException {
-        try {
-            viewsProperties.load(new FileInputStream(viewsPropertiesPath));
-        } catch (IOException e) {
-            throw new KadetException("Not correct path to views.properties");
-        }
+        initPropertyFile(viewsProperties, viewsPropertiesPath);
     }
 
     private void initViewControllerMappingProperties (String viewControllerMappingPropertiesPath) throws KadetException {
-        try {
-            viewControllerMappingProperties.load(new FileInputStream(viewControllerMappingPropertiesPath));
-        } catch (IOException e) {
-            throw new KadetException("Not correct path to view_controller_mapping.properties");
-        }
+        initPropertyFile(viewControllerMappingProperties, viewControllerMappingPropertiesPath);
     }
 
 
-    private void initCommandMappingProperties (String commandPropertiesPath) throws KadetException {
+    private void initPropertyFile (Properties properties, String path) throws KadetException {
         try {
-            commandProperties.load(new FileInputStream(commandPropertiesPath));
+            properties.load(new FileInputStream(path));
+        } catch (FileNotFoundException e) {
+            throw new KadetException(Strings.PROPERTY_FILE_WAS_NOT_FOUND + ": " + path);
         } catch (IOException e) {
-            throw new KadetException("Not correct path to view_controller_mapping.properties");
+            throw new KadetException(Strings.READ_PROPERTY_FILE_ERROR + ": " + path);
         }
     }
 
-
+    /**
+     * @return for example com.kadet.kadetBroker.controller.SomeController
+     */
     public String getControllerClassNameByViewClassName (String viewClassName) {
         String viewName = getViewNameByViewClassName(viewClassName);
         String controllerName = viewControllerMappingProperties.getProperty(viewName);
-        String controllerClassName = controllersProperties.getProperty(controllerName);
-        return controllerClassName;
+        return controllersProperties.getProperty(controllerName);
     }
 
+
+
+    /**
+     * @return for example addCustomerView
+     */
     public String getViewNameByViewClassName (String viewClassName) {
         Set<Map.Entry<Object, Object>> viewsPropertiesSet = viewsProperties.entrySet();
         for (Map.Entry<Object, Object> viewProperty : viewsPropertiesSet) {
@@ -87,10 +83,5 @@ public class PropertiesManager {
         }
         return "";
     }
-
-    public String getCommandClassName (String commandName) {
-        return commandProperties.getProperty(commandName);
-    }
-
 
 }

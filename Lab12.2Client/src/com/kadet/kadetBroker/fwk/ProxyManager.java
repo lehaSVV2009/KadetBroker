@@ -1,5 +1,7 @@
 package com.kadet.kadetBroker.fwk;
 
+import com.rits.cloning.Cloner;
+
 /**
  * Date: 16.05.14
  * Time: 5:15
@@ -16,8 +18,10 @@ public class ProxyManager {
 
     private ProxyManager() {}
 
+    private Cloner cloner = new Cloner();
+
     public Object deepClone (Object clonedObject) {
-        return clonedObject;
+        return cloner.deepClone(clonedObject);
     }
     
 }

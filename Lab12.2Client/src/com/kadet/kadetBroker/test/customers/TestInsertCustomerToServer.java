@@ -1,24 +1,10 @@
 package com.kadet.kadetBroker.test.customers;
 
-import static org.junit.Assert.*;
-
-import java.rmi.RemoteException;
-
+import com.kadet.kadetBroker.exception.KadetException;
+import com.kadet.kadetBroker.to.CustomerTO;
 import org.junit.Test;
 
-import com.kadet.kadetBroker.command.Command;
-import com.kadet.kadetBroker.exception.KadetException;
-import com.kadet.kadetBroker.fwk.CommandManager;
-import com.kadet.kadetBroker.fwk.CommandSender;
-import com.kadet.kadetBroker.fwk.ControllerManager;
-import com.kadet.kadetBroker.fwk.Dispatcher;
-import com.kadet.kadetBroker.fwk.PropertiesManager;
-import com.kadet.kadetBroker.fwk.ViewManager;
-import com.kadet.kadetBroker.model.DataModel;
-import com.kadet.kadetBroker.to.CustomerTO;
-import com.kadet.kadetBroker.to.CustomersListTO;
-import com.kadet.kadetBroker.util.Strings;
-import com.kadet.kadetBroker.viewModel.AllCustomersViewModel;
+import static org.junit.Assert.assertEquals;
 
 public class TestInsertCustomerToServer {
 

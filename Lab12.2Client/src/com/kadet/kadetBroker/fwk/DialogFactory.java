@@ -1,5 +1,6 @@
 package com.kadet.kadetBroker.fwk;
 
+import com.kadet.kadetBroker.util.Strings;
 import com.kadet.kadetBroker.view.View;
 
 /**
@@ -23,7 +24,7 @@ public class DialogFactory {
         try {
             return (View) Class.forName(className).newInstance();
         } catch (Exception e) {
-            throw new IllegalArgumentException("Unable to instantiate" + className);
+            throw new IllegalArgumentException(Strings.UNABLE_TO_INSTANTIATE + className);
         }
     }
 

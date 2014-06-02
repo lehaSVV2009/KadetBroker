@@ -12,6 +12,5 @@ public final class Paths {
     public static final String CONTROLLERS_PROPERTIES_PATH = RESOURCES_PATH + '/' + "controllers.properties";
     public static final String VIEWS_PROPERTIES_PATH = RESOURCES_PATH + '/' + "views.properties";
     public static final String VIEW_CONTROLLER_MAPPING_PROPERTIES_PATH = RESOURCES_PATH + '/' + "view_controller_mapping.properties";
-    public static final String COMMANDS_PROPERTIES_PATH = RESOURCES_PATH + '/' + "commands.properties";
 
 }
