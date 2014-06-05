@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Thu Jun 05 14:09:12 FET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0146-6bb7-e35a-000000d0b8e0 
+on database directory C:\Users\SarokaA\StockMarket with class loader sun.misc.Launcher$AppClassLoader@a0dcd9 
+Loaded from file:/D:/kadet/Activity/courses/JavaLevel2/labs/Lab13.1Maven/final%20jars/kadetBrokerServer-0.13.1-jar-with-dependencies.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_51-b13
+user.dir=d:\kadet\Activity\courses\JavaLevel2\labs\Lab13.1Maven\final jars
+os.name=Windows 7
+os.arch=x86
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
